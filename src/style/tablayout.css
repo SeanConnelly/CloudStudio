@@ -1,0 +1,39 @@
+.tab-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+.tab-layout--tabs {
+    display: flex;
+    flex-direction: row;
+    height: 22px;
+}
+.tab-layout--body {
+    flex: 1;
+    width: 100%;
+    overflow: auto;
+    position: relative;
+}
+.tab-layout--overflow-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: var(--appBackgroundThree);
+    border-left: 2px solid var(--appBackground);
+}
+.tab-layout--overflow-button button {
+    padding: 0.3em 0.8em 0.3em 0.8em;
+}
+.tab-layout--tab {
+    display: inline-block;
+    background-color: var(--appBackgroundThree);
+    color: var(--appTextColorOne);
+    padding: 0.3em 0.5em 0.3em 0.5em;
+    margin-right: 2px;
+    cursor: pointer;
+}
+.tab-layout--tab-focused {
+    background-color: var(--appBackgroundFive);
+}

@@ -1,0 +1,78 @@
+.hide {
+    display: none;
+}
+.fit {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.rel {
+    position:relative;
+}
+.float-right {
+    float: right;
+}
+.push-right {
+    margin-left: auto;
+}
+.clear-fix {
+    clear:both;
+}
+.pad-8 {
+    padding:8px;
+}
+.pad-right-1em {
+    padding-right: 1em;
+}
+.pad-left-1em {
+    padding-left: 1em;
+}
+.pad-1em {
+    padding: 1em;
+}
+.pad-2em {
+    padding: 2em;
+}
+.pad-3em {
+    padding: 3em;
+}
+.flex-row {
+    display: flex;
+}
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+.flex-grow {
+    flex-grow: 1;
+}
+.flex-1 {
+    flex: 1;
+}
+.flex-2 {
+    flex: 2;
+}
+.flex-3 {
+    flex: 3;
+}
+.flex-right {
+    margin-left: auto;
+    order: 2;
+}
+.nowrap {
+    white-space: nowrap;
+}
+.center {
+    text-align: center;
+}
+.align-right {
+    text-align: right;
+}
+.width100 {
+    width: 100%;
+}
+.primary {
+    color: var(--appTextColor);
+}

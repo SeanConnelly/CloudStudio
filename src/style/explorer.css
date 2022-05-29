@@ -1,0 +1,45 @@
+.explorer-title {
+    color: var(--appTextColorThree);
+    padding: 0.3em 0.2em 0.3em 0.5em;
+    background-color: var(--appBackgroundFour);
+}
+.explorer-content {
+
+}
+.subtitle {
+    color: var(--appTextColorThree);
+    margin-top: 1px;
+    margin-bottom: 1px;
+    padding: 0.3em 0.2em 0.3em 0.5em;
+    background-color: var(--appBackgroundThree);
+}
+
+.code-tree {
+    color: var(--appTextColorTwo);
+    padding: 0.5em 0;
+    overflow: scroll;
+}
+.explorer-tree-node {
+    margin-left: 1em;
+}
+.explorer-tree-leaf {
+    margin-left: 1em;
+}
+.explorer-tree-hidden {
+    display: none;
+}
+
+
+
+.folder-color {
+    color: hsl(45, 100%, 36%);;
+}
+.code-tree-folder {
+
+}
+.code-tree-folder :not(.code-tree-folder-open) {
+
+}
+.code-tree-leaf {
+
+}

@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="IRIS" version="26" zv="IRIS for Windows (x86-64) 2020.1 (Build 215U)" ts="2022-05-29 23:09:39">
+<Class name="CloudStudio.Index">
+<Super>%CSP.Page</Super>
+<TimeChanged>66257,44838.91198</TimeChanged>
+<TimeCreated>66235,27451.621856</TimeCreated>
+
+<Method name="OnPage">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Status</ReturnType>
+<ServerOnly>1</ServerOnly>
+<Implementation><![CDATA[
+	&html<
+	
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+	    <meta charset="UTF-8">
+	    <title>Cloud Studio</title>
+	    
+	    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js"></script>
+
+		<link rel="stylesheet" data-name="vs/editor/editor.main" href="./cloud-studio/lib/vs/vs/editor/editor.main.css" />
+
+	    <link rel="stylesheet" href="./cloud-studio/src/style/reset.css">
+	    <link rel="stylesheet" href="./cloud-studio/src/style/vars.css">
+	    <link rel="stylesheet" href="./cloud-studio/src/style/utils.css">
+	    <link rel="stylesheet" href="./cloud-studio/src/style/layout.css">
+	    <link rel="stylesheet" href="./cloud-studio/src/style/menu.css">
+	    <link rel="stylesheet" href="./cloud-studio/src/style/explorer.css">
+	    <link rel="stylesheet" href="./cloud-studio/src/style/editor.css">
+	    <link rel="stylesheet" href="./cloud-studio/src/style/tablayout.css">	    
+	        
+	</head>
+	<body>
+
+	<div class="viewport hidden">
+
+		<!-- top menu -->
+		#(##class(CloudStudio.Views.TopMenu).OnPage())#
+
+		<!-- explorer -->
+		#(##class(CloudStudio.Views.Explorer).OnPage())#
+		
+		<!-- editors -->
+		<div class="editors" id="editSpaceContainer">
+			<div class="pad-1em" style="color:#777">Initialising...</div>
+		</div>
+
+	    
+	    <!-- output windows -->
+		<div class="status-window" id="statusWindow">
+		
+			<!-- status bar -->
+			<div class="status-bar flex-row" id="statusBar">
+				<div class="flex-1 flex-row status-bar-tabs">
+					<button onclick="CloudStudioDirector.request('Action.StatusWindow','console')" class="status-bar-button">Console</button>
+					<!-- <button onclick="CloudStudioDirector.request('Action.StatusWindow','results')" class="status-bar-button">Results</button> -->
+				</div>
+				<div class="flex-1 flex-row status-bar-status">
+					<span id="CursorPosition">0:0</span>
+				</div>
+				<div class="flex-1 flex-row status-bar-info">
+					<div class="float-right">
+						<!-- MINIMISE / PIN -->
+					</div>
+				</div>
+			</div>
+			
+			<div class="output-window" id="outputWindow">
+			</div>
+		
+		</div>
+		  
+	</div>
+
+	</body>
+
+
+	<script language="javascript">
+	var require = { paths: { vs: './cloud-studio/lib/vs/vs' } };
+   </script>
+	<script src="./cloud-studio/lib/vs/vs/loader.js"></script>
+	<script src="./cloud-studio/lib/vs/vs/editor/editor.main.nls.js"></script>
+	<script src="./cloud-studio/lib/vs/vs/editor/editor.main.js"></script>
+	
+	<script type="module" src="./cloud-studio/src/main.js"></script>
+
+		 
+	<script language="javascript">
+		#(..InitialiseAppData())#
+	</script>
+	</html>
+	
+	>
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="InitialiseAppData">
+<Description>
+TODO: Quick hack, move into an API</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	
+	//user name
+	write !,"CloudStudioAppDefault = {};"
+	write !,"CloudStudioAppDefault.User='",$USERNAME,"';"
+	
+	//default namespace
+	set thisNamespace=$NAMESPACE
+	zn "%SYS"
+	set user=##class(Security.Users).%OpenId($USERNAME)
+	set defaultNamespace=user.NameSpace
+	if defaultNamespace="" set defaultNamespace=thisNamespace
+	zn thisNamespace
+	write !,"CloudStudioAppDefault.NS='",defaultNamespace,"';"
+	
+	quit ""
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="CloudStudio.Views.Editors">
+<Super>%CSP.Page</Super>
+<TimeChanged>66258,83263.301317</TimeChanged>
+<TimeCreated>66237,36.491058</TimeCreated>
+
+<Method name="OnPage">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Status</ReturnType>
+<ServerOnly>1</ServerOnly>
+<Implementation><![CDATA[
+	
+	&html<
+	
+	<div class="editors" id="editors">
+		<div class="tab-bar" id="tab-bar"></div>
+		<div class="tab-overflow-button"><i class="fas fa-angle-down"></i></div>
+		<div class="tab-content">
+			<tab class="editor" id="editor"></div>
+		</div>
+	</div>
+	
+	>
+	quit $$$OK
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="CloudStudio.Views.Explorer">
+<Super>%CSP.Page</Super>
+<TimeChanged>66258,83248.400188</TimeChanged>
+<TimeCreated>66235,26558.402405</TimeCreated>
+
+<Method name="OnPage">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Status</ReturnType>
+<ServerOnly>1</ServerOnly>
+<Implementation><![CDATA[
+	
+	&html<
+	
+	<div class="explorer flex-col">
+		<div class="explorer-title flex-row">
+	  		<span id="namespace"></span>
+	  		<button class="flex-right menu-top-button rel" id="file-menu">
+	  		  <i class="fas fa-angle-left"></i>
+	          <div class="sub-menu menu-below-right">
+	            <div id="">Expand All</div>
+	            <div id="">Collapse All</div>
+	          </div>
+	        </button>
+		</div>
+		<div class="flex-grow code-tree" id="explorer-tree"></div>
+	</div>
+	
+	>
+	quit $$$OK
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="CloudStudio.Views.TopMenu">
+<Super>%CSP.Page</Super>
+<TimeChanged>66258,71284.385981</TimeChanged>
+<TimeCreated>66235,27468.070794</TimeCreated>
+
+<Method name="OnPage">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Status</ReturnType>
+<ServerOnly>1</ServerOnly>
+<Implementation><![CDATA[
+	&html<
+	
+	<div class="menu-bar flex-row" id="top-menu">
+	
+	<div class="flex-row flex-1">
+		<button class="rel menu-top-button" id="file-menu">File
+		  <div class="sub-menu menu-below">
+		  
+  		    <div class="rel">Change Namespace
+		    	<span class="float-right"><i class="fas fa-angle-right"></i></span>
+			    <div class="sub-menu menu-aside">
+			    	<%=..OutputNamespaces()%>
+			    </div>	
+		    </div>
+		    		    
+			<div class="menu-divide"></div>
+		  
+		    <div class="rel">New Class
+		    	<span class="float-right"><i class="fas fa-angle-right"></i></span>
+			    <div class="sub-menu menu-aside">
+			    	<div onclick="CloudStudioDirector.set('Action.New','Registered')">Registered</div>
+			    	<div onclick="CloudStudioDirector.set('Action.New','Persistent')">Persistent</div>
+			    	<div class="menu-divide"></div>
+			    	<div onclick="CloudStudioDirector.set('Action.New','Registered XML')">Registered + XML</div>
+			    	<div onclick="CloudStudioDirector.set('Action.New','Persistent XML')">Persistent + XML</div>			    	
+			    	<div class="menu-divide"></div>
+			    	<div onclick="CloudStudioDirector.set('Action.New','Serial')">Serial</div>
+			    	<div onclick="CloudStudioDirector.set('Action.New','Abstract')">Abstract</div>
+			    	<div class="menu-divide"></div>
+			    	<div onclick="CloudStudioDirector.set('Action.New','CSP')">CSP Class</div>
+			    	<div class="disabled" onclick="CloudStudioDirector.set('Action.New','')">Web Service</div>
+			    </div>	
+		    </div>
+		    
+		    <div class="rel">New Routine
+		    	<span class="float-right"><i class="fas fa-angle-right"></i></span>
+			    <div class="sub-menu menu-aside">
+			    	<div onclick="CloudStudioDirector.set('Action.New','Routine')">ObjectScript</div>
+			    	<div class="menu-divide"></div>
+			    	<div class="disabled" onclick="CloudStudioDirector.set('Action.New','')">Basic</div>
+			    	<div class="disabled" onclick="CloudStudioDirector.set('Action.New','')">MultiValue</div>
+			    	<div class="menu-divide"></div>			    	
+			    	<div onclick="CloudStudioDirector.set('Action.New','Macro')">Macro Include</div>
+			    	<div onclick="CloudStudioDirector.set('Action.New','Intermediary')">Intermediary</div>			    	
+			    </div>	
+		    </div>
+		    
+		   <div class="rel">New Web File
+		    	<span class="float-right"><i class="fas fa-angle-right"></i></span>
+			    <div class="sub-menu menu-aside">
+			    	<div class="disabled" onclick="CloudStudioDirector.set('Action.New','')">CSP Page</div>
+			    	<div class="menu-divide"></div>
+			    	<div class="disabled" onclick="CloudStudioDirector.set('Action.New','')">JavaScript</div>
+			    	<div class="disabled" onclick="CloudStudioDirector.set('Action.New','')">TypeScript</div>
+			    	<div class="menu-divide"></div>			    	
+			    	<div class="disabled" onclick="CloudStudioDirector.set('Action.New','')">CSS</div>
+			    	<div class="disabled" onclick="CloudStudioDirector.set('Action.New','')">HTML</div>			    	
+			    </div>	
+		    </div>
+
+		   <div class="rel">New Production
+		    	<span class="float-right"><i class="fas fa-angle-right"></i></span>
+			    <div class="sub-menu menu-aside">
+			    	<div class="disabled" onclick="CloudStudioDirector.set('Action.New','')">Service</div>
+			    	<div class="disabled" onclick="CloudStudioDirector.set('Action.New','')">Service Adapter</div>			    	
+			    	<div class="menu-divide"></div>
+			    	<div class="disabled" onclick="CloudStudioDirector.set('Action.New','')">Message</div>
+			    	<div class="disabled" onclick="CloudStudioDirector.set('Action.New','')">BPL Process</div>
+			    	<div class="disabled" onclick="CloudStudioDirector.set('Action.New','')">Custom Process</div>
+			    	<div class="disabled" onclick="CloudStudioDirector.set('Action.New','')">DTL Transformation</div>			    	
+			    	<div class="menu-divide"></div>			    	
+			    	<div class="disabled" onclick="CloudStudioDirector.set('Action.New','')">Operation</div>
+			    	<div class="disabled" onclick="CloudStudioDirector.set('Action.New','')">Operation Adapter</div>			    	
+			    	<div class="menu-divide"></div>			    	
+			    	<div class="disabled" onclick="CloudStudioDirector.set('Action.New','')">Production</div>
+			    </div>	
+		    </div>
+
+		   <div class="rel">New Custom
+		    	<span class="float-right"><i class="fas fa-angle-right"></i></span>
+			    <div class="sub-menu menu-aside">
+			    	<div class="disabled" onclick="CloudStudioDirector.set('Action.New','')">Unit Test</div>
+			    	<div class="disabled" onclick="CloudStudioDirector.set('Action.New','')">ZPM Package</div>
+			    	<div class="disabled" onclick="CloudStudioDirector.set('Action.New','')">DeepSee KPI</div>			    	
+			    	<div class="menu-divide"></div>
+			    	<div class="disabled" onclick="CloudStudioDirector.set('Action.New','')">Custom Defintion</div>
+			    </div>	
+		    </div>
+
+		    <div class="menu-divide"></div>
+		    <div onclick="CloudStudioDirector.set('Action.Save')">Save</div>
+		    <div class="disabled">Save All</div>
+		    <div class="disabled">Save As...</div>
+		    <div class="disabled">Save Copy As...</div>
+		    <div class="disabled">Rename...</div>
+    		<div class="disabled">Autosave</div>
+    		    
+		    <div class="menu-divide"></div>
+			
+			<div class="disabled">Print</div>
+			
+		  </div>
+		</button>
+		
+		<button class="rel menu-top-button" id="edit-menu">Edit
+		  <div class="sub-menu menu-below">
+		    <div>Undu</div>
+		    <div>Redu</div>
+		    <div class="menu-divide"></div>
+		    <div>Cut</div>
+		    <div>Copy</div> 
+		    <div>Paste</div>
+		    <div>Delete</div>
+		    <div class="menu-divide"></div>        
+		    <div>Select All</div>
+		    <div class="menu-divide"></div>        
+		    <div>Find...</div>
+		    <div>Replace...</div>
+		    <div class="menu-divide"></div>
+		    <div>Search in Files...</div>		    
+		  </div>
+		</button>
+		
+		<button class="rel menu-top-button" id="view-menu">View
+     	 <div class="sub-menu menu-below">
+		    <div onclick="CloudStudioDirector.request('Action.ToggleFullScreen')">Full Screen</div>
+		    <div>Zoom In</div>
+		    <div>Zoom Out</div>
+		    <div class="menu-divide"></div>
+		    <div onclick="CloudStudioDirector.set('Action.ShowLineNumbers','toggle')">Show Line Numbers</div>
+		    <div onclick="CloudStudioDirector.set('Action.ShowMiniMap','toggle')">Show Mini Map</div>
+   		    <div class="menu-divide"></div>
+   		    <div class="rel">Appearance
+		    	<span class="float-right"><i class="fas fa-angle-right"></i></span>
+			    <div class="sub-menu menu-aside">
+			    	<div onclick="CloudStudioDirector.set('Model.Appearance','light')">Light</div>
+			    	<div onclick="CloudStudioDirector.set('Model.Appearance','dark')">Dark</div>
+			    </div>	
+		    </div>
+   		    <div class="rel">Accent Color
+		    	<span class="float-right"><i class="fas fa-angle-right"></i></span>
+			    <div class="sub-menu menu-aside">
+			    	<div onclick="CloudStudioDirector.set('Model.AccentColor','red')"><span class="menu-view--color bg-red">&nbsp;</span>Red</div>
+			    	<div onclick="CloudStudioDirector.set('Model.AccentColor','brown')"><span class="menu-view--color bg-brown">&nbsp;</span>Brown</div>
+			    	<div onclick="CloudStudioDirector.set('Model.AccentColor','orange')"><span class="menu-view--color bg-orange">&nbsp;</span>Orange</div>
+			    	<div onclick="CloudStudioDirector.set('Model.AccentColor','yellow')"><span class="menu-view--color bg-yellow">&nbsp;</span>Yellow</div>
+			    	<div onclick="CloudStudioDirector.set('Model.AccentColor','green')"><span class="menu-view--color bg-green">&nbsp;</span>Green</div>
+			    	<div onclick="CloudStudioDirector.set('Model.AccentColor','mint')"><span class="menu-view--color bg-mint">&nbsp;</span>Mint</div>
+			    	<div onclick="CloudStudioDirector.set('Model.AccentColor','cyan')"><span class="menu-view--color bg-cyan">&nbsp;</span>Cyan</div>
+			    	<div onclick="CloudStudioDirector.set('Model.AccentColor','blue')"><span class="menu-view--color bg-blue">&nbsp;</span>Blue</div>
+			    	<div onclick="CloudStudioDirector.set('Model.AccentColor','magenta')"><span class="menu-view--color bg-magenta">&nbsp;</span>Magenta</div>
+			    </div>	
+		    </div>
+		    <div class="menu-divide"></div>
+		    <div onclick="CloudStudioDirector.request('Action.ReloadPage')">Reload</div>
+		    <div onclick="CloudStudioDirector.request('Action.ResetPage')">Reset</div>
+		    <div class="menu-divide"></div>
+		    <div onclick="CloudStudioDirector.request('Action.FoldAll')">Fold Code</div>
+		    <div onclick="CloudStudioDirector.request('Action.UnfoldAll')">Unfold Code</div>
+	     </div>
+		</button>
+
+		<button class="rel menu-top-button" id="project-menu">Project
+		 <div class="sub-menu menu-below">
+		    <div class="disabled">Manage Project</div>
+		    <div class="disabled">Baseline Project</div>
+		    <div class="menu-divide"></div>
+		    <div class="disabled">Export Project</div>
+		    <div class="menu-divide"></div>
+		    <div class="disabled">Open Project</div>
+		    <div class="disabled">New Project</div>
+		    <div class="disabled">Rename Project</div>
+		    <div class="disabled">Copy Project</div>		    
+		    <div class="disabled">Close Project</div>
+	     </div>
+		</button>
+				
+		<button class="rel menu-top-button" id="edit-menu">Build
+		  <div class="sub-menu menu-below">
+		    <div>Compile</div>
+		    <div class="menu-divide"></div>
+		    <div>Compile All</div>
+		  </div>
+		</button>
+		
+		<button class="rel menu-top-button" id="tools-menu">Tools</button>
+		
+	</div>
+	<div class="flex-row">
+		<button onclick="CloudStudioDirector.request('Action.Save')" class="rel icon-button" id="tools-menu"><i class="fas fa-save fa-sm"></i></button>
+		<button onclick="CloudStudioDirector.request('Action.Compile')" class="rel icon-button" id="tools-menu"><i class="fas fa-cogs fa-sm"></i></button>
+	</div>
+	<div class="flex-row flex-1">	
+		<button class="rel menu-top-button push-right" id="utils-menu">Utilities</button>
+		<button class="rel menu-top-button" id="help-menu">Help</button>
+	</div>	
+	</div>
+	
+	>
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="OutputNamespaces">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	set sc=##class(%SYS.Namespace).ListAll(.nsl)
+	set ns=$o(nsl(""))
+	while ns'="" {
+		if $e(ns)'="^" write "<div onclick=""CloudStudioDirector.set('Model.NameSpace','"_ns_"')"">"_ns_"</div>"
+		set ns=$o(nsl(ns))
+	}
+	quit ""
+]]></Implementation>
+</Method>
+</Class>
+
+
+</Export>

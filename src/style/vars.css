@@ -1,0 +1,86 @@
+:root {
+    --red: hsl(0, 100%, 30%);
+    --brown: hsl(15, 100%, 30%);
+    --orange: hsl(30, 100%, 30%);
+    --yellow: hsl(60, 100%, 40%);
+    --green: hsl(100, 100%, 30%);
+    --mint: hsl(170, 100%, 30%);
+    --cyan: hsl(185, 100%, 30%);
+    --blue: hsl(210, 100%, 30%);
+    --magenta: hsl(300, 100%, 30%);
+
+    --appPrimaryColor: var(--cyan);
+    --appAccentColor: var(--cyan);
+
+    --appTextColor: #fff;
+    --appTextColorOne: #eee;
+    --appTextColorTwo: #ddd;
+    --appTextColorThree: #ccc;
+    --appTextColorFour: #bbb;
+    --appTextColorFive: #aaa;
+
+    --appBackground: #000;
+    --appBackgroundOne: #111;
+    --appBackgroundTwo: #222;
+    --appBackgroundThree: #333;
+    --appBackgroundFour: #444;
+    --appBackgroundFive: #555;
+
+    --appViewportBackground: #000;
+    --appExplorerBackground: #222;
+
+    --appScrollbarThumb: #111;
+    --appScrollbarTrack: #222;
+}
+
+[light-theme="on"] {
+    --red: hsl(0, 100%, 50%);
+    --brown: hsl(15, 100%, 50%);
+    --orange: hsl(30, 100%, 50%);
+    --yellow: hsl(60, 100%, 50%);
+    --green: hsl(100, 100%, 50%);
+    --mint: hsl(170, 100%, 50%);
+    --cyan: hsl(185, 100%, 50%);
+    --blue: hsl(210, 100%, 50%);
+    --magenta: hsl(300, 100%, 50%);
+
+    --appTextColor: #000;
+    --appTextColorOne: #111;
+    --appTextColorTwo: #222;
+    --appTextColorThree: #333;
+    --appTextColorFour: #444;
+    --appTextColorFive: #555;
+
+    --appBackground: #fff;
+    --appBackgroundOne: #eee;
+    --appBackgroundTwo: #ddd;
+    --appBackgroundThree: #ccc;
+    --appBackgroundFour: #bbb;
+    --appBackgroundFive: #aaa;
+
+    --appViewportBackground: #ddd;
+    --appExplorerBackground: #fcfcfc;
+
+    --appScrollbarThumb: #ddd;
+    --appScrollbarTrack: #fcfcfc;
+}
+
+.red { color: var(--red); }
+.brown { color: var(--brown); }
+.orange { color: var(--orange); }
+.yellow { color: var(--yellow); }
+.green { color: var(--green); }
+.mint { color: var(--mint); }
+.cyan { color: var(--cyan); }
+.blue { color: var(--blue); }
+.magenta { color: var(--magenta); }
+
+.bg-red { background-color: var(--red); }
+.bg-brown { background-color: var(--brown); }
+.bg-orange { background-color: var(--orange); }
+.bg-yellow { background-color: var(--yellow); }
+.bg-green { background-color: var(--green); }
+.bg-mint { background-color: var(--mint); }
+.bg-cyan { background-color: var(--cyan); }
+.bg-blue { background-color: var(--blue); }
+.bg-magenta { background-color: var(--magenta); }
