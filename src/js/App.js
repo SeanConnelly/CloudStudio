@@ -2,6 +2,7 @@ import {AppDirector} from './AppDirector.js';
 import {Explorer} from './Explorer.js';
 import {EditSpace} from './EditSpace.js';
 import {TopMenu} from './TopMenu.js';
+import {} from './Languages.js';  //required to load ObjectScript language into Monaco at startup
 
 const $cssVar = (key,val) => document.documentElement.style.setProperty('--' + key, val);
 
