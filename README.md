@@ -6,6 +6,8 @@ Welcome to a very early preview release of Cloud Studio, a code editor for Inter
 
 Click on the image for a simple video demonstration.
 
+https://www.youtube.com/watch?v=Am6QAvrPPPg
+
 [![Cloud Studio Demonstration](Screeshot.jpg)]([https://www.youtube.com/watch?v=FIJIZh70jAY](https://www.youtube.com/watch?v=Am6QAvrPPPg))
 
 The project is currently "work in progress" and is at the early stages of development and testing.
