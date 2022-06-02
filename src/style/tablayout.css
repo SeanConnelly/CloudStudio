@@ -1,8 +1,8 @@
 .tab-layout {
     display: flex;
     flex-direction: column;
-    height: 100%;
-    width: 100%;
+    width:100%;
+    height:100%;
     position: relative;
 }
 .tab-layout--tabs {
@@ -26,6 +26,11 @@
 .tab-layout--overflow-button button {
     padding: 0.3em 0.8em 0.3em 0.8em;
 }
+.tab-layout--overflow-menu {
+    max-height: 75vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
 .tab-layout--tab {
     display: inline-block;
     background-color: var(--appBackgroundThree);
@@ -33,6 +38,7 @@
     padding: 0.3em 0.5em 0.3em 0.5em;
     margin-right: 2px;
     cursor: pointer;
+    white-space: nowrap;
 }
 .tab-layout--tab-focused {
     background-color: var(--appBackgroundFive);

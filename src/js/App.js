@@ -45,7 +45,8 @@ export class App {
         this.registerMouseRightClick();
 
         //init default values
-        AppDirector.init('Model.NameSpace',(AppDirector.get('Model.NameSpace') || (CloudStudioAppDefault.NS)),true)
+        let ns = new URLSearchParams(window.location.search).get('ns');
+        AppDirector.init('Model.NameSpace',(ns || AppDirector.get('Model.NameSpace') || (CloudStudioAppDefault.NS)),true)
         AppDirector.init('Model.Theme','dracula',true);
         AppDirector.init('Model.LineNumbers','off',true);
         AppDirector.init('Model.MiniMap',true,true);
@@ -71,15 +72,23 @@ export class App {
         AppDirector.on('Action.SetTabItemInFocusByName', (tabInfo) => this.editSpace.setTabLayoutInFocusByTabInfo(tabInfo));
         AppDirector.on('Action.New', (docType) => this.editSpace.newDocument(docType));
         AppDirector.on('Action.MakeNew', (docNameType) => this.editSpace.makeNewDocument(docNameType));
+        AppDirector.on('Action.SwapNamespace', (ns) => { AppDirector.set('Model.DocumentsOpenForEdit',''); window.location = `${window.location.href.split('?')[0]}?ns=${ns}`;  });
+        AppDirector.on('Action.ExpandAll', () => this.explorer.expandAll());
+        AppDirector.on('Action.CollapseAll', () => this.explorer.collapseAll());
+        AppDirector.on('Action.OverflowItemSelected', (item) => this.editSpace.overflowItemSelected(item.dataset.name) );
+        AppDirector.on('Action.TabLayoutGotFocus', (tl) => this.editSpace.tabLayoutGotFocus(tl));
+        AppDirector.on('Action.ViewOtherCode', () => this.editSpace.viewOtherCode());
 
+
+        //editor got focus
         AppDirector.on('Message.EditorDidGetFocus', (ev) => this.editSpace.editorDidGetFocus(ev));
-
 
         //models
         AppDirector.on('Model.AccentColor', color => $cssVar('appPrimaryColor', 'var(--' + color + ')'));
         AppDirector.on('Model.Appearance', themeName => this.editSpace.setTheme(themeName));
-        AppDirector.on('Model.NameSpace', (ns) => this.explorer.swapNamespace(ns));
+        AppDirector.on('Model.NameSpace', (ns) => this.explorer.swapNamespace(ns) );
         AppDirector.on('Model.DocumentsOpenForEdit', docName => this.editSpace.openDocumentForEdit(docName) );
+
 
         //messages
         AppDirector.on('Message.Console', (data) => this.editSpace.outputToConsole(data));

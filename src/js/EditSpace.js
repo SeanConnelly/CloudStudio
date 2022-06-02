@@ -12,7 +12,7 @@ const $div = (...cl) => { let div = document.createElement('div'); if (cl) div.c
 export class EditSpace {
 
     constructor() {
-        this.el = $div('fit','flex-row');    //root element of the edit space
+        this.el = $div('fit');              //root element of the edit space
         this.tabLayoutInFocus = undefined;      //track the most recent tab layout in focus
         this.statusWindowOpen = false;          //track open state of status / console window
         this.tabLayouts = {};                   //maintain a handle on all tab layouts in edit space using tab uid's
@@ -60,7 +60,8 @@ export class EditSpace {
         let src = CodeTemplates.GetTemplate(docNameType.docType,docNameType.name);
         let doc = new IrisDocument(AppDirector.get('Model.NameSpace'),fullDocName,src);
         let editor = new Editor(doc);
-        this.addDocumentEditorToTabLayout(this.getTabLayoutInFocus(),fullDocName,editor)
+        this.addDocumentEditorToTabLayout(this.getTabLayoutInFocus(),fullDocName,editor);
+        editor.editor.focus();
     }
 
     //=========================================================================
@@ -99,20 +100,30 @@ export class EditSpace {
         this.tabLayoutInFocus = {'uid': ev.tabLayout.id, 'colRowRef': tabLayout.parentInfo.colRowRef};
     }
 
+    tabLayoutGotFocus(tabLayout) {
+        this.tabLayoutInFocus = {'uid': tabLayout.el.id, 'colRowRef': tabLayout.parentInfo.colRowRef};
+    }
+
     //=========================================================================
     // MANAGE OUTER ELEMENTS FOR EDIT SPACE (COLUMNS AND ROWS FOR TABS)
     //=========================================================================
     appendNewColumnAndRow() {
 
-        //append new flex column to end of edit space
-        let colEl = $div('flex-1','flex-col')
+        //append new column
+        let colEl = $div('column')
         colEl.id = App.getAppItemUid();
         this.el.append(colEl)
 
-        //append new flex row inside the new column
-        let rowEl = $div('flex-1')
+        //append new row (only one row for now)
+        let rowEl = $div('row')
         rowEl.id = App.getAppItemUid();
         colEl.append(rowEl);
+
+        let colCount = this.el.childElementCount;
+        for (let i=0; i<colCount; i++) {
+            let col = this.el.childNodes[i];
+            col.style.width = (100/colCount) + '%';
+        }
 
         return {"colEl":colEl,"rowEl":rowEl}
 
@@ -156,8 +167,6 @@ export class EditSpace {
         this.addDocumentEditorToTabLayout(nextTabLayout,docName,view)
         currentTabLayout.remove(docName);
         if (currentTabLayout.isEmpty()) {
-            console.log('oh no, its empty!');
-            console.dir(currentTabLayout);
             currentTabLayout.parentInfo.colRowRef.colEl.remove();
             delete this.tabLayouts[currentTabLayout.uid];
         }
@@ -232,6 +241,16 @@ export class EditSpace {
         let outputWindow = document.getElementById('outputWindow');
         outputWindow.innerHTML = outputWindow.innerHTML + '<br>' + data + '<br>';
         outputWindow.scrollTop = outputWindow.scrollHeight
+    }
+
+    overflowItemSelected(name) {
+        this.getTabLayoutInFocus().moveTabToStart(name);
+        this.getTabLayoutInFocus().setTabItemInFocusByName(name);
+    }
+
+    viewOtherCode() {
+        let tab = this.getTabLayoutInFocus().getTabItemInFocus();
+        console.dir(tab);
     }
 
 }

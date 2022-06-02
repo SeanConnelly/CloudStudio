@@ -8,6 +8,10 @@
     left: 0;
     right: 0;
 }
+.fit100 {
+    width: 100%;
+    height: 100%;
+}
 .rel {
     position:relative;
 }
@@ -38,8 +42,11 @@
 .pad-3em {
     padding: 3em;
 }
+
+
 .flex-row {
     display: flex;
+    flex-direction: row;
 }
 .flex-col {
     display: flex;
@@ -61,6 +68,41 @@
     margin-left: auto;
     order: 2;
 }
+
+
+.column {
+    float: left;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.row {
+    height: 100%;
+    width: 100%;
+}
+
+
+.table-fixed {
+    display: table;
+    table-layout: fixed;
+}
+.table-row {
+    display: table-row;
+}
+.table-cell {
+    display: table-cell;
+}
+.one-half { width: 50%; }
+.one-third { width: 33.33%; }
+.one-quarter { width: 25%; }
+.one-fifth { width: 20%; }
+.one-sixth { width: 16.66%; }
+
+
+
+
+
 .nowrap {
     white-space: nowrap;
 }

@@ -42,6 +42,10 @@ export class Explorer {
     }
 
     //TODO: Preload top level packages and folder, then lazy load full contents of each as needed
+    // /docnames/:cat/:type?filter=
+    // cat = *,CLS,RTN,CSP,OTH
+    // type = cls,mac,int,inc,bas,mvi,mvb
+    // filter = Name Like %filter%
     loadNamespace(ns) {
         fetch(`/api/atelier/v1/${encodeURI(ns)}/docnames`) .then( res => res.json()).then( data => {
             this.updateCodeTree(data);
@@ -51,7 +55,7 @@ export class Explorer {
 
     updateCodeTree(data) {
         this.codeTree = {Classes:{},Routines:{},Web:{},Other:{}};
-        let namespace = AppDirector.get('namespace');
+        let namespace = AppDirector.get('Model.NameSpace');
         for (let item of data.result.content) {
             if ((item.db.indexOf('IRIS') === 0) && (namespace !== '%SYS')) continue;
             if (item.cat === 'CLS') this.addTreeItem(this.codeTree.Classes,item);
@@ -104,6 +108,26 @@ export class Explorer {
             }
         })
         return html1 + html2;
+    }
+
+    expandAll() {
+        let nodes = this.codeTreeEl.querySelectorAll('.explorer-tree-node');
+        for (let i=0; i< nodes.length; i++) {
+            let el = nodes[i];
+            el.lastElementChild.classList.remove('explorer-tree-hidden');
+            el.firstElementChild.classList.remove('fa-folder');
+            el.firstElementChild.classList.add('fa-folder-open');
+        }
+    }
+
+    collapseAll() {
+        let nodes = this.codeTreeEl.querySelectorAll('.explorer-tree-node');
+        for (let i=0; i< nodes.length; i++) {
+            let el = nodes[i];
+            el.lastElementChild.classList.add('explorer-tree-hidden');
+            el.firstElementChild.classList.add('fa-folder');
+            el.firstElementChild.classList.remove('fa-folder-open');
+        }
     }
 
 }

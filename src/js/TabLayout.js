@@ -40,7 +40,7 @@ export class TabLayout {
             <div class="tab-layout--overflow-button">
                 <button class="flex-right menu-top-button rel" id="file-menu">
                     <i class="fas fa-caret-down"></i>
-                    <div class="sub-menu menu-below-right">
+                    <div class="tab-layout--overflow-menu sub-menu menu-below-right">
                     </div>
                 </button>
             </div>` : ''}
@@ -57,25 +57,32 @@ export class TabLayout {
     }
 
     registerEvents() {
-        this.tabsEl.addEventListener('click', (ev) => this.onContextMenuClick(ev))
+        this.tabsEl.addEventListener('click', (ev) => this.onTabItemClick(ev));
+        this.el.addEventListener('click', (ev) => AppDirector.set("Action.TabLayoutGotFocus", this));
     }
 
     //=========================================================================
-    // CONTEXT MENU
+    // TAB ITEM CLICK
     //=========================================================================
-    onContextMenuClick(ev) {
+    onTabItemClick(ev) {
         let tabName = this.getTabNameFromChildEl(ev.target);
+        if (tabName === '') return;
         AppDirector.set('Action.SetTabItemInFocusByName',{"tabName":tabName,"tabLayoutUid":this.uid})
         this.setTabItemInFocusByName(tabName);
         if (ev.target.parentElement.classList.contains('sub-menu')) {
             let action = ev.target.innerText;
             AppDirector.set("Actions.EditorTabContextMenu",{'action':action,'name':tabName});
-            ev.target.parentElement.parentElement.blur();
+            //ev.target.parentElement.parentElement.blur();
+        }
+        if (ev.target.nodeName !== 'BUTTON' && ev.target.parentElement.nodeName !== 'BUTTON' && ev.target.parentElement.parentElement.nodeName !== 'BUTTON') {
+            this.getTabItemInFocus().editor.focus();
         }
     }
 
     getTabNameFromChildEl(el) {
-        return el.closest('[data-name]').dataset.name;
+        let tab = el.closest('[data-name]');
+        if (tab === null) return ''; //TODO: if you have to do this, then the design is wrong, review and refactor
+        return tab.dataset.name || '';
     }
 
     //=========================================================================
@@ -103,7 +110,7 @@ export class TabLayout {
     }
 
     addOverflowItem(name) {
-        this.overFlowMenuEl.insertAdjacentHTML('afterbegin',`<div data-id="${name}">${name}</div>`);
+        this.overFlowMenuEl.insertAdjacentHTML('afterbegin',`<div onclick="CloudStudioDirector.set('Action.OverflowItemSelected',this,false,true)"  data-name="${name}">${name}</div>`);
     }
 
     getTabCommonMenuFragmentForTab() {
@@ -116,13 +123,18 @@ export class TabLayout {
             <div class="disabled">Move Left</div>`
     }
 
+    moveTabToStart(name) {
+        let el = this.tabsEl.querySelector(`[data-name="${name}"]`);
+        this.tabsEl.prepend(el);
+    }
+
     //=========================================================================
     // REMOVE TAB FROM LAYOUT
     //=========================================================================
     remove(name) {
         delete this.children[name];
         this.tabsEl.querySelector(`[data-name="${name}"]`).remove();
-        this.overFlowMenuEl.querySelector(`[data-id="${name}"]`).remove();
+        this.overFlowMenuEl.querySelector(`[data-name="${name}"]`).remove();
         if (this.tabNameInFocus === name) {
             let first = this.tabsEl.firstElementChild;
             if (first) this.setTabItemInFocusByName(first.dataset.name);
@@ -151,6 +163,7 @@ export class TabLayout {
         this.tabsEl.querySelector(`[data-name="${name}"]`).classList.add('tab-layout--tab-focused');
         this.children[name].show();
         this.tabNameInFocus = name;
+        //this.getTabItemInFocus().editor.focus();
     }
 
     getTabItemInFocus() {

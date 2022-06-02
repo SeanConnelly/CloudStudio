@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Welcome to a very early preview release of Cloud Studio, a code editor for InterSystems IRIS.
+Welcome to a very early preview release of Cloud Studio, a code editor for InterSystems IrisSystem.
 
 Click on the image for a simple video demonstration.
 
