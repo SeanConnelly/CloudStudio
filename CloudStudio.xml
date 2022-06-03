@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Export generator="IRIS" version="26" zv="IRIS for Windows (x86-64) 2020.1 (Build 215U)" ts="2022-06-02 12:12:21">
+<Export generator="IRIS" version="26" zv="IRIS for Windows (x86-64) 2020.1 (Build 215U)" ts="2022-06-03 19:41:24">
 <Class name="CloudStudio.Index">
 <Super>%CSP.Page</Super>
-<TimeChanged>66261,68341.238006</TimeChanged>
+<TimeChanged>66263,70742.582429</TimeChanged>
 <TimeCreated>66235,27451.621856</TimeCreated>
 
 <Method name="OnPage">
@@ -38,10 +38,10 @@
 	<div class="viewport hidden">
 
 		<!-- top menu -->
-		#(##class(CloudStudio.Views.TopMenu).OnPage())#
+		#(..TopMenu())#
 
 		<!-- explorer -->
-		#(##class(CloudStudio.Views.Explorer).OnPage())#
+		#(..Explorer())#
 		
 		<!-- editors -->
 		<div class="editors" id="editSpaceContainer">
@@ -120,80 +120,10 @@ TODO: Quick hack, move into an API</Description>
 	quit ""
 ]]></Implementation>
 </Method>
-</Class>
 
-
-<Class name="CloudStudio.Views.Editors">
-<Super>%CSP.Page</Super>
-<TimeChanged>66258,83263.301317</TimeChanged>
-<TimeCreated>66237,36.491058</TimeCreated>
-
-<Method name="OnPage">
+<Method name="TopMenu">
 <ClassMethod>1</ClassMethod>
 <ReturnType>%Status</ReturnType>
-<ServerOnly>1</ServerOnly>
-<Implementation><![CDATA[
-	
-	&html<
-	
-	<div class="editors" id="editors">
-		<div class="tab-bar" id="tab-bar"></div>
-		<div class="tab-overflow-button"><i class="fas fa-angle-down"></i></div>
-		<div class="tab-content">
-			<tab class="editor" id="editor"></div>
-		</div>
-	</div>
-	
-	>
-	quit $$$OK
-]]></Implementation>
-</Method>
-</Class>
-
-
-<Class name="CloudStudio.Views.Explorer">
-<Super>%CSP.Page</Super>
-<TimeChanged>66261,70159.817413</TimeChanged>
-<TimeCreated>66235,26558.402405</TimeCreated>
-
-<Method name="OnPage">
-<ClassMethod>1</ClassMethod>
-<ReturnType>%Status</ReturnType>
-<ServerOnly>1</ServerOnly>
-<Implementation><![CDATA[
-	
-	&html<
-	
-	<div class="explorer flex-col">
-		<div class="explorer-title flex-row">
-	  		<span id="namespace"></span>
-	  		<button class="flex-right menu-top-button rel" id="file-menu">
-	  		  <i class="fas fa-bars"></i>
-	          <div class="sub-menu menu-below-right">
-	            <div onclick="CloudStudioDirector.request('Action.ExpandAll','',false,true)" id="">Expand All</div>
-	            <div onclick="CloudStudioDirector.request('Action.CollapseAll','',false,true)" id="">Collapse All</div>
-	          </div>
-	        </button>
-		</div>
-		<div class="flex-grow code-tree" id="explorer-tree"></div>
-	</div>
-	
-	>
-	quit $$$OK
-]]></Implementation>
-</Method>
-</Class>
-
-
-<Class name="CloudStudio.Views.TopMenu">
-<Super>%CSP.Page</Super>
-<TimeChanged>66262,32009.181723</TimeChanged>
-<TimeCreated>66235,27468.070794</TimeCreated>
-
-<Method name="OnPage">
-<ClassMethod>1</ClassMethod>
-<ReturnType>%Status</ReturnType>
-<ServerOnly>1</ServerOnly>
 <Implementation><![CDATA[
 	&html<
 	
@@ -396,7 +326,7 @@ TODO: Quick hack, move into an API</Description>
 	</div>
 	
 	>
-	quit $$$OK
+	quit ""
 ]]></Implementation>
 </Method>
 
@@ -412,7 +342,31 @@ TODO: Quick hack, move into an API</Description>
 	quit ""
 ]]></Implementation>
 </Method>
+
+<Method name="Explorer">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	
+	&html<
+	
+	<div class="explorer flex-col">
+		<div class="explorer-title flex-row">
+	  		<span id="namespace"></span>
+	  		<button class="flex-right menu-top-button rel" id="file-menu">
+	  		  <i class="fas fa-bars"></i>
+	          <div class="sub-menu menu-below-right">
+	            <div onclick="CloudStudioDirector.request('Action.ExpandAll','',false,true)" id="">Expand All</div>
+	            <div onclick="CloudStudioDirector.request('Action.CollapseAll','',false,true)" id="">Collapse All</div>
+	          </div>
+	        </button>
+		</div>
+		<div class="flex-grow code-tree" id="explorer-tree"></div>
+	</div>
+	
+	>
+	quit ""
+]]></Implementation>
+</Method>
 </Class>
-
-
 </Export>
