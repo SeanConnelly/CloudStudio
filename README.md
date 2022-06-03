@@ -22,4 +22,4 @@ Use of the project should be experimental for now.
 
 **A more detailed list of requirements for the Roadmap are listed on the wiki page**
 
-https://github.com/SeanConnelly/CloudStudio/wiki
+https://github.com/SeanConnelly/CloudStudio/wiki/Requirements
