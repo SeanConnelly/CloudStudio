@@ -19,3 +19,7 @@ Use of the project should be experimental for now.
 1. Make Cloud Studio a stable code editor that is fit for production
 2. Continually add new features until it's a complete and battle tested IDE
 3. Focus on 10x developer productivity
+
+**A more detailed list of requirements for the Roadmap are listed on the wiki page**
+
+https://github.com/SeanConnelly/CloudStudio/wiki
