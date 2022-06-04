@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Export generator="IRIS" version="26" zv="IRIS for Windows (x86-64) 2020.1 (Build 215U)" ts="2022-06-04 17:23:48">
+<Export generator="IRIS" version="26" zv="IRIS for Windows (x86-64) 2020.1 (Build 215U)" ts="2022-06-04 17:29:22">
 <Class name="CloudStudio.Index">
 <Super>%CSP.Page</Super>
-<TimeChanged>66264,62261.831155</TimeChanged>
+<TimeChanged>66264,62858.78913</TimeChanged>
 <TimeCreated>66235,27451.621856</TimeCreated>
 
 <Method name="OnPage">
@@ -336,7 +336,9 @@ TODO: Quick hack, move into an API</Description>
 		     <div onclick="CloudStudioDirector.request('Action.LaunchUtility','Production Configuration',false,true)">Production Configuration</div>
 		     <div onclick="CloudStudioDirector.request('Action.LaunchUtility','Production Monitor',false,true)">Production Monitor</div>
 		     <div onclick="CloudStudioDirector.request('Action.LaunchUtility','System Monitor',false,true)">System Monitor</div>
-		     <div onclick="CloudStudioDirector.request('Action.LaunchUtility','Message Viewer',false,true)">Message Viewer</div>     
+		     <div onclick="CloudStudioDirector.request('Action.LaunchUtility','Message Viewer',false,true)">Message Viewer</div>
+		     <div class="menu-divide"></div> 
+		     <div onclick="CloudStudioDirector.request('Action.LaunchUtility','Web Terminal',false,true)">Web Terminal</div>     
 		  </div>
 		</button>
 		<button class="rel menu-top-button" id="help-menu">Help

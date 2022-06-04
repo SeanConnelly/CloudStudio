@@ -262,6 +262,7 @@ export class EditSpace {
         if (utilName === 'Production Monitor') window.open(`/csp/healthshare/za/EnsPortal.ProductionMonitor.zen?$NAMESPACE=${ns}`);
         if (utilName === 'System Monitor') window.open(`/csp/sys/%25CSP.UI.Portal.EnsembleMonitor.zen?$NAMESPACE=${ns}`);
         if (utilName === 'Message Viewer') window.open(`/csp/healthshare/${ns}/EnsPortal.MessageViewer.zen?$NAMESPACE=${ns}`);
+        if (utilName === 'Web Terminal') window.open(`http://localhost:52773/terminal/?NS=${ns}`);
     }
 
     launchHelp(helpName) {
