@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Export generator="IRIS" version="26" zv="IRIS for Windows (x86-64) 2020.1 (Build 215U)" ts="2022-06-04 12:26:02">
+<Export generator="IRIS" version="26" zv="IRIS for Windows (x86-64) 2020.1 (Build 215U)" ts="2022-06-04 17:23:48">
 <Class name="CloudStudio.Index">
 <Super>%CSP.Page</Super>
-<TimeChanged>66264,33821.532946</TimeChanged>
+<TimeChanged>66264,62261.831155</TimeChanged>
 <TimeCreated>66235,27451.621856</TimeCreated>
 
 <Method name="OnPage">
@@ -55,7 +55,8 @@
 			<!-- status bar -->
 			<div class="status-bar flex-row" id="statusBar">
 				<div class="flex-1 flex-row status-bar-tabs">
-					<button onclick="CloudStudioDirector.request('Action.StatusWindow','console',false,true)" class="status-bar-button">Console</button>
+					<button onclick="CloudStudioDirector.request('Action.StatusWindow','output',false,true)" class="status-bar-button">Output</button>
+					<!-- <button onclick="CloudStudioDirector.request('Action.StatusWindow','terminal',false,true)" class="status-bar-button">Terminal</button> -->
 					<!-- <button onclick="CloudStudioDirector.request('Action.StatusWindow','results')" class="status-bar-button">Results</button> -->
 				</div>
 				<div class="flex-1 flex-row status-bar-status">
@@ -70,6 +71,11 @@
 			
 			<div class="output-window" id="outputWindow">
 			</div>
+
+			<!--
+			<div class="terminal-window" id="terminalWindow">				
+			</div>			
+			-->
 		
 		</div>
 		  
@@ -320,8 +326,29 @@ TODO: Quick hack, move into an API</Description>
 		<button onclick="CloudStudioDirector.request('Action.Compile','',false,true)" class="rel icon-button" id="tools-menu"><i class="fas fa-cogs fa-sm"></i></button>
 	</div>
 	<div class="flex-row flex-1">	
-		<button class="rel menu-top-button push-right" id="utils-menu">Utilities</button>
-		<button class="rel menu-top-button" id="help-menu">Help</button>
+		<button class="rel menu-top-button push-right" id="utils-menu">Utilities
+			<div class="sub-menu menu-below-right">
+		     <div onclick="CloudStudioDirector.request('Action.LaunchUtility','Management Portal',false,true)">Management Portal</div>
+		     <div onclick="CloudStudioDirector.request('Action.LaunchUtility','SQL Explorer',false,true)">SQL Explorer</div>    		     		     
+		     <div class="menu-divide"></div>
+		     <div onclick="CloudStudioDirector.request('Action.LaunchUtility','Class Reference',false,true)">Class Reference</div>    		     		     		     
+		     <div class="menu-divide"></div>    
+		     <div onclick="CloudStudioDirector.request('Action.LaunchUtility','Production Configuration',false,true)">Production Configuration</div>
+		     <div onclick="CloudStudioDirector.request('Action.LaunchUtility','Production Monitor',false,true)">Production Monitor</div>
+		     <div onclick="CloudStudioDirector.request('Action.LaunchUtility','System Monitor',false,true)">System Monitor</div>
+		     <div onclick="CloudStudioDirector.request('Action.LaunchUtility','Message Viewer',false,true)">Message Viewer</div>     
+		  </div>
+		</button>
+		<button class="rel menu-top-button" id="help-menu">Help
+		  <div class="sub-menu menu-below-right">
+		     <div onclick="CloudStudioDirector.request('Action.LaunchHelp','InterSystems Documentation',false,true)">InterSystems Documentation</div>
+		     <div onclick="CloudStudioDirector.request('Action.LaunchHelp','InterSystems Community',false,true)">InterSystems Community</div>
+		     <div onclick="CloudStudioDirector.request('Action.LaunchHelp','InterSystems Discord',false,true)">InterSystems Discord</div>
+		     <div class="menu-divide"></div>
+		     <div onclick="CloudStudioDirector.request('Action.LaunchHelp','CloudStudio GitHub',false,true)">CloudStudio GitHub</div>    		     		     
+		  </div>
+		</button>
+		</button>
 	</div>	
 	</div>
 	

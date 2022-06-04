@@ -250,7 +250,25 @@ export class EditSpace {
 
     viewOtherCode() {
         let tab = this.getTabLayoutInFocus().getTabItemInFocus();
-        console.dir(tab);
+        console.log(tab);
+    }
+
+    launchUtility(utilName) {
+        let ns = AppDirector.get('Model.NameSpace');
+        if (utilName === 'Management Portal') window.open(`/csp/sys/%25CSP.Portal.Home.zen?$NAMESPACE=${ns}`);
+        if (utilName === 'SQL Explorer') window.open(`/csp/sys/exp/%25CSP.UI.Portal.SQL.Home.zen?$NAMESPACE=${ns}`);
+        if (utilName === 'Class Reference') window.open(`/csp/documatic/%25CSP.Documatic.cls?LIBRARY=${ns}`);
+        if (utilName === 'Production Configuration') window.open(`/csp/healthshare/${ns}/EnsPortal.ProductionConfig.zen?$NAMESPACE=${ns}`);
+        if (utilName === 'Production Monitor') window.open(`/csp/healthshare/za/EnsPortal.ProductionMonitor.zen?$NAMESPACE=${ns}`);
+        if (utilName === 'System Monitor') window.open(`/csp/sys/%25CSP.UI.Portal.EnsembleMonitor.zen?$NAMESPACE=${ns}`);
+        if (utilName === 'Message Viewer') window.open(`/csp/healthshare/${ns}/EnsPortal.MessageViewer.zen?$NAMESPACE=${ns}`);
+    }
+
+    launchHelp(helpName) {
+        if (helpName === 'InterSystems Documentation') window.open(`https://docs.intersystems.com/`);
+        if (helpName === 'InterSystems Community') window.open(`https://community.intersystems.com/`);
+        if (helpName === 'InterSystems Discord') window.open(`https://discord.com/channels/698987699406766170/707503143092486145`);
+        if (helpName === 'CloudStudio GitHub') window.open(`https://github.com/SeanConnelly/CloudStudio`);
     }
 
 }

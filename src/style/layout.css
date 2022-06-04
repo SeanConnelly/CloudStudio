@@ -60,6 +60,14 @@ html,body {
     padding: 1em;
     user-select: auto;
 }
+.terminal-window {
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    top: 22px;
+    user-select: auto;
+}
 
 .status-bar {
     position: absolute;

@@ -78,7 +78,8 @@ export class App {
         AppDirector.on('Action.OverflowItemSelected', (item) => this.editSpace.overflowItemSelected(item.dataset.name) );
         AppDirector.on('Action.TabLayoutGotFocus', (tl) => this.editSpace.tabLayoutGotFocus(tl));
         AppDirector.on('Action.ViewOtherCode', () => this.editSpace.viewOtherCode());
-
+        AppDirector.on('Action.LaunchUtility', (utilName) => this.editSpace.launchUtility(utilName));
+        AppDirector.on('Action.LaunchHelp', (helpName) => this.editSpace.launchHelp(helpName));
 
         //editor got focus
         AppDirector.on('Message.EditorDidGetFocus', (ev) => this.editSpace.editorDidGetFocus(ev));
