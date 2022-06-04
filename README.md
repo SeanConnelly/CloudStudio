@@ -1,12 +1,12 @@
+<img src="Logo.png" alt="CloudStudio" style="width:100px;" align="right" />
+
 # Cloud Studio
 
 ## Introduction
 
-Welcome to a very early preview release of Cloud Studio, a code editor for InterSystems IrisSystem.
+Welcome to a very early preview release of Cloud Studio, a code editor for InterSystems Iris
 
-Click on the image for a simple video demonstration.
-
-https://www.youtube.com/watch?v=Am6QAvrPPPg
+[Video Demonstration](https://www.youtube.com/watch?v=Am6QAvrPPPg)
 
 [![Cloud Studio Demonstration](Screeshot.jpg)]([https://www.youtube.com/watch?v=FIJIZh70jAY](https://www.youtube.com/watch?v=Am6QAvrPPPg))
 
