@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Export generator="IRIS" version="26" zv="IRIS for Windows (x86-64) 2020.1 (Build 215U)" ts="2022-06-03 19:41:24">
+<Export generator="IRIS" version="26" zv="IRIS for Windows (x86-64) 2020.1 (Build 215U)" ts="2022-06-04 12:26:02">
 <Class name="CloudStudio.Index">
 <Super>%CSP.Page</Super>
-<TimeChanged>66263,70742.582429</TimeChanged>
+<TimeChanged>66264,33821.532946</TimeChanged>
 <TimeCreated>66235,27451.621856</TimeCreated>
 
 <Method name="OnPage">
@@ -21,7 +21,7 @@
 	    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js"></script>
 
-		<link rel="stylesheet" data-name="vs/editor/editor.main" href="./cloud-studio/lib/vs/vs/editor/editor.main.css" />
+		<link rel="stylesheet" data-name="vs/editor/editor.main" href="./cloud-studio/lib/monaco/editor/editor.main.css" />
 
 	    <link rel="stylesheet" href="./cloud-studio/src/style/reset.css">
 	    <link rel="stylesheet" href="./cloud-studio/src/style/vars.css">
@@ -79,11 +79,11 @@
 
 
 	<script language="javascript">
-	var require = { paths: { vs: './cloud-studio/lib/vs/vs' } };
+	var require = { paths: { vs: './cloud-studio/lib/monaco' } };
    </script>
-	<script src="./cloud-studio/lib/vs/vs/loader.js"></script>
-	<script src="./cloud-studio/lib/vs/vs/editor/editor.main.nls.js"></script>
-	<script src="./cloud-studio/lib/vs/vs/editor/editor.main.js"></script>
+	<script src="./cloud-studio/lib/monaco/loader.js"></script>
+	<script src="./cloud-studio/lib/monaco/editor/editor.main.nls.js"></script>
+	<script src="./cloud-studio/lib/monaco/editor/editor.main.js"></script>
 	
 	<script type="module" src="./cloud-studio/src/main.js"></script>
 
