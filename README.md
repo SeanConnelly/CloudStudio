@@ -1,4 +1,4 @@
-<img src="Logo.png" alt="CloudStudio" style="width:100px;" align="right" />
+<img src="./npc/Logo.png" alt="CloudStudio" style="width:100px;" align="right" />
 
 # Cloud Studio
 
@@ -8,7 +8,7 @@ Welcome to a very early preview release of Cloud Studio, a code editor for Inter
 
 [Video Demonstration](https://www.youtube.com/watch?v=Am6QAvrPPPg)
 
-[![Cloud Studio Demonstration](Screeshot.jpg)]([https://www.youtube.com/watch?v=FIJIZh70jAY](https://www.youtube.com/watch?v=Am6QAvrPPPg))
+[![Cloud Studio Demonstration](./npc/Screeshot.jpg)]([https://www.youtube.com/watch?v=FIJIZh70jAY](https://www.youtube.com/watch?v=Am6QAvrPPPg))
 
 The project is currently "work in progress" and is at the early stages of development and testing.
 
