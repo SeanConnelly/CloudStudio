@@ -1,15 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Export generator="IRIS" version="26" zv="IRIS for Windows (x86-64) 2020.1 (Build 215U)" ts="2022-06-04 17:29:22">
-<Class name="CloudStudio.Index">
-<Super>%CSP.Page</Super>
-<TimeChanged>66264,62858.78913</TimeChanged>
-<TimeCreated>66235,27451.621856</TimeCreated>
+Class CloudStudio.Index Extends %CSP.Page
+{
 
-<Method name="OnPage">
-<ClassMethod>1</ClassMethod>
-<ReturnType>%Status</ReturnType>
-<ServerOnly>1</ServerOnly>
-<Implementation><![CDATA[
+ClassMethod OnPage() As %Status [ ServerOnly = 1 ]
+{
 	&html<
 	
 	<!DOCTYPE html>
@@ -21,16 +14,16 @@
 	    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js"></script>
 
-		<link rel="stylesheet" data-name="vs/editor/editor.main" href="./cloud-studio/lib/monaco/editor/editor.main.css" />
+		<link rel="stylesheet" data-name="vs/editor/editor.main" href="./lib/monaco/editor/editor.main.css" />
 
-	    <link rel="stylesheet" href="./cloud-studio/src/style/reset.css">
-	    <link rel="stylesheet" href="./cloud-studio/src/style/vars.css">
-	    <link rel="stylesheet" href="./cloud-studio/src/style/utils.css">
-	    <link rel="stylesheet" href="./cloud-studio/src/style/layout.css">
-	    <link rel="stylesheet" href="./cloud-studio/src/style/menu.css">
-	    <link rel="stylesheet" href="./cloud-studio/src/style/explorer.css">
-	    <link rel="stylesheet" href="./cloud-studio/src/style/editor.css">
-	    <link rel="stylesheet" href="./cloud-studio/src/style/tablayout.css">	    
+	    <link rel="stylesheet" href="./style/reset.css">
+	    <link rel="stylesheet" href="./style/vars.css">
+	    <link rel="stylesheet" href="./style/utils.css">
+	    <link rel="stylesheet" href="./style/layout.css">
+	    <link rel="stylesheet" href="./style/menu.css">
+	    <link rel="stylesheet" href="./style/explorer.css">
+	    <link rel="stylesheet" href="./style/editor.css">
+	    <link rel="stylesheet" href="./style/tablayout.css">	    
 	        
 	</head>
 	<body>
@@ -85,13 +78,13 @@
 
 
 	<script language="javascript">
-	var require = { paths: { vs: './cloud-studio/lib/monaco' } };
+	var require = { paths: { vs: './lib/monaco' } };
    </script>
-	<script src="./cloud-studio/lib/monaco/loader.js"></script>
-	<script src="./cloud-studio/lib/monaco/editor/editor.main.nls.js"></script>
-	<script src="./cloud-studio/lib/monaco/editor/editor.main.js"></script>
+	<script src="./lib/monaco/loader.js"></script>
+	<script src="./lib/monaco/editor/editor.main.nls.js"></script>
+	<script src="./lib/monaco/editor/editor.main.js"></script>
 	
-	<script type="module" src="./cloud-studio/src/main.js"></script>
+	<script type="module" src="./main.js"></script>
 
 		 
 	<script language="javascript">
@@ -101,14 +94,11 @@
 	
 	>
 	quit $$$OK
-]]></Implementation>
-</Method>
+}
 
-<Method name="InitialiseAppData">
-<Description>
-TODO: Quick hack, move into an API</Description>
-<ClassMethod>1</ClassMethod>
-<Implementation><![CDATA[
+/// TODO: Quick hack, move into an API
+ClassMethod InitialiseAppData()
+{
 	
 	//user name
 	write !,"CloudStudioAppDefault = {};"
@@ -124,13 +114,10 @@ TODO: Quick hack, move into an API</Description>
 	write !,"CloudStudioAppDefault.NS='",defaultNamespace,"';"
 	
 	quit ""
-]]></Implementation>
-</Method>
+}
 
-<Method name="TopMenu">
-<ClassMethod>1</ClassMethod>
-<ReturnType>%Status</ReturnType>
-<Implementation><![CDATA[
+ClassMethod TopMenu() As %Status
+{
 	&html<
 	
 	<div class="menu-bar flex-row" id="top-menu">
@@ -356,12 +343,10 @@ TODO: Quick hack, move into an API</Description>
 	
 	>
 	quit ""
-]]></Implementation>
-</Method>
+}
 
-<Method name="OutputNamespaces">
-<ClassMethod>1</ClassMethod>
-<Implementation><![CDATA[
+ClassMethod OutputNamespaces()
+{
 	set sc=##class(%SYS.Namespace).ListAll(.nsl)
 	set ns=$o(nsl(""))
 	while ns'="" {
@@ -369,13 +354,10 @@ TODO: Quick hack, move into an API</Description>
 		set ns=$o(nsl(ns))
 	}
 	quit ""
-]]></Implementation>
-</Method>
+}
 
-<Method name="Explorer">
-<ClassMethod>1</ClassMethod>
-<ReturnType>%Status</ReturnType>
-<Implementation><![CDATA[
+ClassMethod Explorer() As %Status
+{
 	
 	&html<
 	
@@ -395,7 +377,7 @@ TODO: Quick hack, move into an API</Description>
 	
 	>
 	quit ""
-]]></Implementation>
-</Method>
-</Class>
-</Export>
+}
+
+}
+
