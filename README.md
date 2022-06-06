@@ -1,5 +1,3 @@
-<img src="./npc/Logo.png" alt="CloudStudio" style="width:100px;" align="right" />
-
 # Cloud Studio
 
 ## Introduction
