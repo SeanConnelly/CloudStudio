@@ -12,16 +12,16 @@
 			                DefaultTimeout="900"
 			                DeployPath="${cspdir}cloudstudio\src\csp\"
 			                InboundWebServicesEnabled="0"
-			                MatchRoles=":%DB_%DEFAULT"
 			                PasswordAuthEnabled="1"
 			                Recurse="1"
 			                ServeFiles="1"
 			                ServeFilesTimeout="3600"
-			                SourcePath=".\src\csp"
+			                SourcePath="/src/csp"
 			                UnauthenticatedEnabled="0"
 			                Url="/cloudstudio"
 			                UseSessionCookie="2"/>
-			<SourcesRoot>cls</SourcesRoot>
+			<Resource Name="CloudStudio.PKG" />
+			<SourcesRoot>src</SourcesRoot>
 		</Module>
 	</Document>
 </Export>
