@@ -63,14 +63,19 @@ export class AppDirector {
 
     static push(key,value,persist = true) {
         if (!AppDirector.data[key]) AppDirector.data[key] = [];
-        //if (AppData.data.includes(key)) return;
-        AppDirector.data[key].push(value);
-        if (persist) localStorage.setItem(key, JSON.stringify(AppDirector.data[key]));
-        //callback subs
+        if (!AppDirector.data[key].includes(value)) {
+            AppDirector.data[key].push(value);
+            if (persist) localStorage.setItem(key, JSON.stringify(AppDirector.data[key]));
+        }
         if (AppDirector.data[key] === undefined) return;
         for (let id in AppDirector.subs[key]) {
             AppDirector.subs[key][id](value);
         }
+    }
+
+    static removeItem(key,value,persist = true) {
+        AppDirector.data[key] = AppDirector.data[key].filter( v2 => (v2 !== value) )
+        if (persist) localStorage.setItem(key, JSON.stringify(AppDirector.data[key]));
     }
 
     static on(key,cb) {

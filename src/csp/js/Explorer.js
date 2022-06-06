@@ -8,6 +8,10 @@ export class Explorer {
             this.toggleFolder(ev);
             this.openFile(ev);
         })
+        this.codeTreeEl.addEventListener('touchstart', ev => {
+            this.toggleFolder(ev);
+            this.openFile(ev);
+        })
         AppDirector.bindInnerText('namespace','Model.NameSpace');
     }
 

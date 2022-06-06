@@ -44,9 +44,9 @@ export class PromptBox {
                             </div>
                         </div>                                                
                     </div>
-                    <div class="flex-3"></div>
+                    <div class="flex-1"></div>
                 </div>
-                <div class="flex-3"></div>
+                <div class="flex-1"></div>
             </div>
         `
     }

@@ -80,6 +80,7 @@ export class App {
         AppDirector.on('Action.ViewOtherCode', () => this.editSpace.viewOtherCode());
         AppDirector.on('Action.LaunchUtility', (utilName) => this.editSpace.launchUtility(utilName));
         AppDirector.on('Action.LaunchHelp', (helpName) => this.editSpace.launchHelp(helpName));
+        AppDirector.on('Action.TextSize', (size) => this.editSpace.setTextSize(size));
 
         //editor got focus
         AppDirector.on('Message.EditorDidGetFocus', (ev) => this.editSpace.editorDidGetFocus(ev));
@@ -97,6 +98,7 @@ export class App {
 
         //TODO: Refactor this...
         AppDirector.on('Actions.EditorTabContextMenu', data => {
+            if (data.action === 'Close') this.editSpace.closeDocument(data.name);
             if (data.action === 'Move Right') this.editSpace.moveRight(data.name);
             if (data.action === 'Move Left') this.editSpace.moveLeft(data.name);
         })

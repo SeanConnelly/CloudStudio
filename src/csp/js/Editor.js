@@ -35,7 +35,7 @@ export class Editor {
             lineNumbers: AppDirector.get('Model.LineNumbers')
         })
         this.editor.getModel().setEOL(0);
-        this.editor.getModel().onDidChangeContent( ev => this.hasChanged = true )
+        this.editor.getModel().onDidChangeContent( ev => {this.hasChanged = true; } )
         this.editor.onDidChangeCursorPosition( ev => AppDirector.set("Message.CursorPosition", ev.position) );
         this.editor.onDidFocusEditorText( ev => AppDirector.set("Message.EditorDidGetFocus", {"ev":ev,"tabLayout":this.el.parentElement.parentElement}));  //make grand-parent a named prop of this
     }

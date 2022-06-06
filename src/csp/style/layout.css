@@ -123,7 +123,7 @@ html,body {
 }
 .prompt-box--title {
     background-color: var(--appBackgroundThree);
-    padding: 1em;
+    padding: 0.5em 1em;
 }
 .prompt-box--body {
     padding: 1em;
@@ -134,7 +134,9 @@ html,body {
 .prompt-box--button {
     background-color: var(--appBackgroundFive);
     border: 1px solid var(--appBackgroundFive);
-    padding: 0.5em;
+    padding: 0.14em 0.4em;
+    min-width: 4em;
+    text-align: center;
 }
 
 .prompt-box--button:hover, .prompt-box--button:focus {

@@ -7,7 +7,7 @@ export class IrisDocument {
         this.name = name;
         this.content = content;
         this.language = this.getLanguage(name.split('.').pop().toLowerCase());
-        this.meta = { tabLayoutId : undefined }
+        //this.meta = { tabLayoutId : undefined }
         this.isDTL = this.checkIsDTL()
     }
 

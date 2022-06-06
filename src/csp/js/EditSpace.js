@@ -32,11 +32,16 @@ export class EditSpace {
     // DOCUMENT ACTIONS
     //=========================================================================
     openDocumentForEdit(docName) {
-        let ns = AppDirector.get('Model.NameSpace');
-        IrisDocument.open(ns,docName).then(doc => {
-            let editor = new Editor(doc);
-            this.addDocumentEditorToTabLayout(this.getTabLayoutInFocus(),docName,editor)
-        })
+        if (this.isDocumentOpen(docName)) {
+            this.giveDocumentFocus(docName);
+        } else {
+            let ns = AppDirector.get('Model.NameSpace');
+            IrisDocument.open(ns,docName).then(doc => {
+                let editor = new Editor(doc);
+                let tabLayoutInFocus = this.getTabLayoutInFocus();
+                this.addDocumentEditorToTabLayout(tabLayoutInFocus,docName,editor)
+            })
+        }
     }
 
     saveDocumentInFocus() {
@@ -62,6 +67,38 @@ export class EditSpace {
         let editor = new Editor(doc);
         this.addDocumentEditorToTabLayout(this.getTabLayoutInFocus(),fullDocName,editor);
         editor.editor.focus();
+    }
+
+    closeDocument(docName) {
+        this.eachEditor( (editor,tabLayout) => {
+            if (docName === editor.doc.name) {
+                if (editor.hasChanged) {
+                    //TODO, check document is different and prompt user to save first
+                    console.log('document has changed, prompt user before removing');
+                } else {
+                    tabLayout.deleteTab(docName);
+                    AppDirector.removeItem('Model.DocumentsOpenForEdit',docName);
+                    this.removeEmptyTabLayouts();
+                }
+            }
+        })
+    }
+
+    isDocumentOpen(docName) {
+        let isOpen=false;
+        this.eachEditor( editor => {
+            if (docName === editor.doc.name) isOpen=true;
+        })
+        return isOpen;
+    }
+
+    giveDocumentFocus(docName) {
+        this.eachEditor( (editor,tabLayout) => {
+            if (docName === editor.doc.name) {
+                tabLayout.setTabItemInFocusByName(docName)
+                tabLayout.moveTabToStart(docName)
+            }
+        })
     }
 
     //=========================================================================
@@ -119,14 +156,18 @@ export class EditSpace {
         rowEl.id = App.getAppItemUid();
         colEl.append(rowEl);
 
+        this.calculateColumnWidths();
+
+        return {"colEl":colEl,"rowEl":rowEl}
+
+    }
+
+    calculateColumnWidths() {
         let colCount = this.el.childElementCount;
         for (let i=0; i<colCount; i++) {
             let col = this.el.childNodes[i];
             col.style.width = (100/colCount) + '%';
         }
-
-        return {"colEl":colEl,"rowEl":rowEl}
-
     }
 
     prependNewColumnAndRow() {
@@ -134,7 +175,8 @@ export class EditSpace {
     }
 
     isColumnInFocusTheLastColumn() {
-        let focusedColumn = this.tabLayoutInFocus.colRowRef.colEl
+        let tabLayoutInFocus = this.getTabLayoutInFocus();
+        let focusedColumn = tabLayoutInFocus.parentInfo.colRowRef.colEl
         let lastColumn = this.el.lastElementChild;
         return (lastColumn === focusedColumn);
     }
@@ -145,7 +187,12 @@ export class EditSpace {
 
     //Edit space can have more than one tab layout, return the layout that's in focus, or was most recently in focus
     getTabLayoutInFocus() {
-        return this.tabLayouts[this.tabLayoutInFocus.uid];
+        let tabLayout = this.tabLayouts[this.tabLayoutInFocus.uid];
+        if (tabLayout === undefined) {
+            tabLayout = this.tabLayouts[Object.keys(this.tabLayouts)[0]]
+            this.tabLayoutGotFocus(tabLayout);
+        }
+        return tabLayout;
     }
 
     //=========================================================================
@@ -166,10 +213,18 @@ export class EditSpace {
         let view = currentTabLayout.children[docName];
         this.addDocumentEditorToTabLayout(nextTabLayout,docName,view)
         currentTabLayout.remove(docName);
-        if (currentTabLayout.isEmpty()) {
-            currentTabLayout.parentInfo.colRowRef.colEl.remove();
-            delete this.tabLayouts[currentTabLayout.uid];
-        }
+        this.removeEmptyTabLayouts();
+        this.tabLayoutInFocus = nextTabLayout;
+    }
+
+    removeEmptyTabLayouts(keepOne = true) {
+        this.eachTabLayout(tabLayout => {
+            if (tabLayout.isEmpty() && (this.isOnlyTabLayout() === false)) {
+                tabLayout.parentInfo.colRowRef.colEl.remove();
+                delete this.tabLayouts[tabLayout.uid];
+                this.calculateColumnWidths();
+            }
+        })
     }
 
     moveLeft(name) {
@@ -209,14 +264,34 @@ export class EditSpace {
         editor.trigger('unfold','editor.unfoldAll')
     }
 
+    setTextSize(size) {
+        console.log('size',size)
+        if (size === 'Small') document.body.style.fontSize = '10px';
+        if (size === 'Normal') document.body.style.fontSize = '12px';
+        if (size === 'Large') document.body.style.fontSize = '14px';
+        if (size === 'ExtraLarge') document.body.style.fontSize = '16px';
+    }
+
     //=========================================================================
     // UTILS
     //=========================================================================
     eachEditor(cb) {
         for (const uid in this.tabLayouts) {
             let tabLayout = this.tabLayouts[uid];
-            for (let key in tabLayout.children) cb(tabLayout.children[key]);
+            for (let key in tabLayout.children) cb(tabLayout.children[key],tabLayout);
         }
+    }
+
+    eachTabLayout(cb) {
+        for (const uid in this.tabLayouts) {
+            let tabLayout = this.tabLayouts[uid];
+            cb(tabLayout);
+        }
+    }
+
+    isOnlyTabLayout() {
+        let len = Object.keys(this.tabLayouts).length;
+        return (len === 1);
     }
 
     //=========================================================================

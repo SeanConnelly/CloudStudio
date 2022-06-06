@@ -72,7 +72,6 @@ export class TabLayout {
         if (ev.target.parentElement.classList.contains('sub-menu')) {
             let action = ev.target.innerText;
             AppDirector.set("Actions.EditorTabContextMenu",{'action':action,'name':tabName});
-            //ev.target.parentElement.parentElement.blur();
         }
         if (ev.target.nodeName !== 'BUTTON' && ev.target.parentElement.nodeName !== 'BUTTON' && ev.target.parentElement.parentElement.nodeName !== 'BUTTON') {
             this.getTabItemInFocus().editor.focus();
@@ -114,7 +113,7 @@ export class TabLayout {
     }
 
     getTabCommonMenuFragmentForTab() {
-        return `<div class="disabled">Close</div>
+        return `<div>Close</div>
             <div class="disabled">Close Others</div>
             <div class="disabled">Close Others Right</div>
             <div class="disabled">Close Others Left</div>
@@ -129,7 +128,7 @@ export class TabLayout {
     }
 
     //=========================================================================
-    // REMOVE TAB FROM LAYOUT
+    // REMOVE TAB FROM TAB PARENT LAYOUT
     //=========================================================================
     remove(name) {
         delete this.children[name];
@@ -139,6 +138,12 @@ export class TabLayout {
             let first = this.tabsEl.firstElementChild;
             if (first) this.setTabItemInFocusByName(first.dataset.name);
         }
+        //TODO: if last item in tab layout and more than one layout, then remove layout as well
+    }
+
+    deleteTab(name) {
+        this.children[name].el.remove();
+        this.remove(name);
     }
 
     isEmpty() {
