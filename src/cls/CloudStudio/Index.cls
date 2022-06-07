@@ -127,9 +127,9 @@ ClassMethod TopMenu() As %Status
 		  <div class="sub-menu menu-below">
 		  
   		    <div class="rel">Change Namespace
-		    	<span class="float-right"><i class="fas fa-angle-right"></i></span>
+		    	<span class="float-right"><i class="fas fa-angle-right"></i></span>	    	
 			    <div class="sub-menu menu-aside">
-			    	<%=..OutputNamespaces()%>
+					<%=..OutputNamespaces()%>
 			    </div>	
 		    </div>
 		    		    
@@ -244,8 +244,15 @@ ClassMethod TopMenu() As %Status
 		<button class="rel menu-top-button" id="view-menu">View
      	 <div class="sub-menu menu-below">
 		    <div onclick="CloudStudioDirector.request('Action.ToggleFullScreen','',false,true)">Full Screen</div>
-		    <div>Zoom In</div>
-		    <div>Zoom Out</div>
+		    <div class="rel">Text Size
+			    <span class="float-right"><i class="fas fa-angle-right"></i></span>
+			    <div class="sub-menu menu-aside">
+				    <div onclick="CloudStudioDirector.set('Action.TextSize','Small')">Small</div>
+			    	<div onclick="CloudStudioDirector.set('Action.TextSize','Normal')">Normal</div>
+			    	<div onclick="CloudStudioDirector.set('Action.TextSize','Large')">Large</div>
+			    	<div onclick="CloudStudioDirector.set('Action.TextSize','ExtraLarge')">Extra Large</div>
+			    </div>		    
+		    </div>
 		    <div class="menu-divide"></div>
 		    <div onclick="CloudStudioDirector.set('Action.ShowLineNumbers','toggle',false,true)">Show Line Numbers</div>
 		    <div onclick="CloudStudioDirector.set('Action.ShowMiniMap','toggle',false,true)">Show Mini Map</div>

@@ -63,7 +63,7 @@ export class App {
         AppDirector.on('Action.ShowMiniMap', toggle => this.editSpace.toggleMiniMap());
         AppDirector.on('Action.ReloadPage', () => window.location.reload());
         AppDirector.on('Action.ResetPage', () => {localStorage.clear();window.location.reload()});
-        AppDirector.on('Action.ToggleFullScreen', () => document.body.requestFullscreen());
+        AppDirector.on('Action.ToggleFullScreen', () => (!document.fullscreenElement) ? document.body.requestFullscreen() : document.exitFullscreen() );
         AppDirector.on('Action.StatusWindow', (content) => this.editSpace.toggleStatusWindow(content));
         AppDirector.on('Action.Save', () => this.editSpace.saveDocumentInFocus());
         AppDirector.on('Action.Compile', () => this.editSpace.compileDocumentInFocus());

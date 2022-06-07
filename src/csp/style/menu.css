@@ -64,13 +64,12 @@ button:hover {
 .menu-tab-button:focus .menu-below-right {
     display: block;
 }
-
 .sub-menu {
+    z-index:100;
     position: absolute;
     background-color: var(--appBackgroundThree);
     color: var(--appTextColor);
-    z-index:1;
-    min-width: 140px;
+    min-width: 12em;
     text-align: left;
     padding: 0.5em 0;
     box-shadow: 3px 5px 6px 0 rgba(0,0,0,10);
@@ -78,6 +77,7 @@ button:hover {
     border-right: 0.1em solid var(--appBackgroundFour);
     white-space: nowrap;
 }
+
 .sub-menu > div:not(.menu-divide):not(.disabled) {
     cursor: pointer;
     padding: 0.2em 0.5em;
@@ -105,9 +105,17 @@ button:hover {
 }
 .menu-aside {
     top: 0;
-    left: 138px;
+    left: 11.8em;
     z-index: 10000 !important;
     display: none;
+}
+.menu-aside::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -4em;
+    width: 4em;
 }
 .menu-aside:hover {
     display: none;
