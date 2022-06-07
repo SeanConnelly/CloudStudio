@@ -1,5 +1,3 @@
-<img src="./npc/Logo.png" alt="CloudStudio" style="width:100px;" align="right" />
-
 # Cloud Studio
 
 ## Introduction
@@ -18,8 +16,7 @@ Use of the project should be experimental for now.
 
 ### ZPM Installation
 
-The project will be available on ZPM soon.
-
+zpm "install cloudstudio"
 
 ### Manual Installation
 
