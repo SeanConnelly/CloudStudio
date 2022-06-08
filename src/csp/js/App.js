@@ -54,6 +54,8 @@ export class App {
         //restore app data
         AppDirector.restoreData();
 
+        //give doc title ns name
+        document.title = "Cloud Studio - " + AppDirector.get('Model.NameSpace');
     }
 
     registerEvents() {
@@ -81,6 +83,7 @@ export class App {
         AppDirector.on('Action.LaunchUtility', (utilName) => this.editSpace.launchUtility(utilName));
         AppDirector.on('Action.LaunchHelp', (helpName) => this.editSpace.launchHelp(helpName));
         AppDirector.on('Action.TextSize', (size) => this.editSpace.setTextSize(size));
+        AppDirector.on('Action.MinimiseExplorer', () => this.editSpace.minimiseExplorer());
 
         //editor got focus
         AppDirector.on('Message.EditorDidGetFocus', (ev) => this.editSpace.editorDidGetFocus(ev));

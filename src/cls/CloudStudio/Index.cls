@@ -15,6 +15,8 @@ ClassMethod OnPage() As %Status [ ServerOnly = 1 ]
 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js"></script>
 
 		<link rel="stylesheet" data-name="vs/editor/editor.main" href="./lib/monaco/editor/editor.main.css" />
+		
+		<link rel="icon" href="favicon.png">
 
 	    <link rel="stylesheet" href="./style/reset.css">
 	    <link rel="stylesheet" href="./style/vars.css">
@@ -123,6 +125,11 @@ ClassMethod TopMenu() As %Status
 	<div class="menu-bar flex-row" id="top-menu">
 	
 	<div class="flex-row flex-1">
+	
+		<button class="rel menu-top-button" id="kebab-menu" onclick="CloudStudioDirector.set('Action.MinimiseExplorer','',false,true)">
+			<i class="fa-solid fa-bars" style="margin-top: 0.15em;"></i>
+		</button>
+		
 		<button class="rel menu-top-button" id="file-menu">File
 		  <div class="sub-menu menu-below">
 		  
@@ -368,11 +375,11 @@ ClassMethod Explorer() As %Status
 	
 	&html<
 	
-	<div class="explorer flex-col">
+	<div class="explorer flex-col" id="explorerPanel">
 		<div class="explorer-title flex-row">
 	  		<span id="namespace"></span>
 	  		<button class="flex-right menu-top-button rel" id="file-menu">
-	  		  <i class="fas fa-bars"></i>
+	  		  <i class="fa-solid fa-ellipsis-vertical"></i>
 	          <div class="sub-menu menu-below-right">
 	            <div onclick="CloudStudioDirector.request('Action.ExpandAll','',false,true)" id="">Expand All</div>
 	            <div onclick="CloudStudioDirector.request('Action.CollapseAll','',false,true)" id="">Collapse All</div>

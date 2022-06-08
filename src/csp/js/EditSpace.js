@@ -347,6 +347,22 @@ export class EditSpace {
         if (helpName === 'CloudStudio GitHub') window.open(`https://github.com/SeanConnelly/CloudStudio`);
     }
 
+    minimiseExplorer() {
+        let explorerPanel=document.getElementById('explorerPanel');
+        let editSpaceContainer=document.getElementById('editSpaceContainer');
+        let statusWindow=document.getElementById('statusWindow');
+        console.log('width=',explorerPanel.style.width);
+        if (explorerPanel.style.left === '-400px') {
+            explorerPanel.style.left = '0';
+            editSpaceContainer.style.left = '222px';
+            statusWindow.style.left = '222px'
+        } else {
+            explorerPanel.style.left = '-400px';
+            editSpaceContainer.style.left = '0';
+            statusWindow.style.left = '0'
+        }
+    }
+
 }
 
 let newItemPromptText = {
