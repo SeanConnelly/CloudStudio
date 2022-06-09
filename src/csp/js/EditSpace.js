@@ -14,7 +14,6 @@ export class EditSpace {
     constructor() {
         this.el = $div('fit');              //root element of the edit space
         this.tabLayoutInFocus = undefined;      //track the most recent tab layout in focus
-        this.statusWindowOpen = false;          //track open state of status / console window
         this.tabLayouts = {};                   //maintain a handle on all tab layouts in edit space using tab uid's
     }
 
@@ -298,17 +297,20 @@ export class EditSpace {
     // STATUS BAR / CONSOLE WINDOW
     //=========================================================================
     toggleStatusWindow(forceOpen = false) {
-        let editSpace = document.getElementById('editSpaceContainer');
         let statusWindow = document.getElementById('statusWindow');
-        if (forceOpen === true) this.statusWindowOpen = false;
-        if (this.statusWindowOpen) {
+        let statusWindowState = statusWindow.dataset.state;
+        if (forceOpen === true && statusWindowState === 'open') return;
+        let editSpace = document.getElementById('editSpaceContainer');
+        if (forceOpen === true) statusWindow.dataset.state = 'closed';
+        if (statusWindowState === 'open') {
             editSpace.style.bottom = '24px';
             statusWindow.style.height = '22px';
+            statusWindow.dataset.state = 'closed'
         } else {
             editSpace.style.bottom = '142px';
             statusWindow.style.height = '140px';
+            statusWindow.dataset.state = 'open'
         }
-        this.statusWindowOpen = !this.statusWindowOpen;
     }
 
     outputToConsole(data) {
@@ -351,15 +353,69 @@ export class EditSpace {
         let explorerPanel=document.getElementById('explorerPanel');
         let editSpaceContainer=document.getElementById('editSpaceContainer');
         let statusWindow=document.getElementById('statusWindow');
-        console.log('width=',explorerPanel.style.width);
         if (explorerPanel.style.left === '-400px') {
             explorerPanel.style.left = '0';
-            editSpaceContainer.style.left = '222px';
-            statusWindow.style.left = '222px'
+            console.log('?',parseInt(explorerPanel.style.width,10))
+            editSpaceContainer.style.left = (parseInt(explorerPanel.style.width,10) + 2) + 'px';
+            statusWindow.style.left = (parseInt(explorerPanel.style.width,10) + 2) + 'px';
         } else {
             explorerPanel.style.left = '-400px';
             editSpaceContainer.style.left = '0';
             statusWindow.style.left = '0'
+        }
+    }
+
+    explorerDragbarStart() {
+
+        //large tree causes repaint jank, shift explorer hard right and then recalc at last second to prevent jank
+        let explorerPanel=document.getElementById('explorerPanel');
+        explorerPanel.style.width = '497px';
+
+        document.addEventListener("mousemove", this.explorerDragbarMove);
+        document.addEventListener("mouseup", ev => {
+            document.removeEventListener("mousemove",this.explorerDragbarMove);
+            explorerPanel.style.width = explorerPanel.dataset.movewidth;
+        })
+        document.addEventListener("mouseleave", ev => {
+            document.removeEventListener("mousemove",this.explorerDragbarMove)
+            explorerPanel.style.width = explorerPanel.dataset.movewidth;
+        })
+    }
+
+    explorerDragbarMove(ev) {
+
+        let explorerPanel=document.getElementById('explorerPanel');
+        let editSpaceContainer=document.getElementById('editSpaceContainer');
+        let statusWindow=document.getElementById('statusWindow');
+        let explorerDragbar=document.getElementById('explorerDragbar');
+
+        if ((ev.clientX>160) && (ev.clientX<500)) {
+            explorerPanel.dataset.movewidth = (ev.clientX - 1) + 'px';
+            editSpaceContainer.style.left = (ev.clientX + 1) + 'px';
+            statusWindow.style.left = (ev.clientX + 1) + 'px';
+            explorerDragbar.style.left = (ev.clientX - 3) + 'px';
+        }
+
+    }
+
+    outputDragbarStart() {
+        let statusWindow=document.getElementById('statusWindow');
+        if (statusWindow.dataset.state === 'closed') return;
+        document.addEventListener("mousemove", this.outputDragbarMove);
+        document.addEventListener("mouseup", ev => {
+            document.removeEventListener("mousemove",this.outputDragbarMove);
+        })
+        document.addEventListener("mouseleave", ev => {
+            document.removeEventListener("mousemove",this.outputDragbarMove)
+        })
+    }
+
+    outputDragbarMove(ev) {
+        let editSpaceContainer=document.getElementById('editSpaceContainer');
+        let statusWindow=document.getElementById('statusWindow');
+        if ((ev.clientY<(window.innerHeight-100)) && (ev.clientY>(window.innerHeight/3))) {
+            editSpaceContainer.style.bottom = `calc(100vh - ${(ev.clientY - 1)}px`;
+            statusWindow.style.height = `calc(100vh - ${(ev.clientY + 1)}px`;
         }
     }
 

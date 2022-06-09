@@ -38,14 +38,19 @@ ClassMethod OnPage() As %Status [ ServerOnly = 1 ]
 		<!-- explorer -->
 		#(..Explorer())#
 		
+		<!-- explorer dragbar -->
+		<div onmousedown="CloudStudioDirector.request('Action.ExplorerDragbar','start')" class="explorer-dragbar" id="explorerDragbar"></div>
+		
 		<!-- editors -->
 		<div class="editors" id="editSpaceContainer">
 			<div class="pad-1em" style="color:#777">Initialising...</div>
 		</div>
-
 	    
 	    <!-- output windows -->
-		<div class="status-window" id="statusWindow">
+		<div class="status-window" id="statusWindow" data-state='closed'>
+
+			<!-- output dragbar -->
+			<div onmousedown="CloudStudioDirector.request('Action.OutputDragbar','start')" class="output-dragbar" id="outputDragbar"></div>
 		
 			<!-- status bar -->
 			<div class="status-bar flex-row" id="statusBar">
@@ -73,6 +78,7 @@ ClassMethod OnPage() As %Status [ ServerOnly = 1 ]
 			-->
 		
 		</div>
+		
 		  
 	</div>
 

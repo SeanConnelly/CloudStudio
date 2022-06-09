@@ -30,6 +30,18 @@ html,body {
     width: 220px;
     background-color: var(--appExplorerBackground);
 }
+.explorer-dragbar {
+    position: absolute;
+    top: 26px;
+    bottom: 0;
+    left: 219px;
+    width: 4px;
+}
+.explorer-dragbar:hover {
+    background-color: white;
+    opacity: 20%;
+    cursor: e-resize;
+}
 .editors {
     position: absolute;
     top: 26px;
@@ -37,6 +49,18 @@ html,body {
     bottom: 24px;
     left: 222px;
     background-color: var(--appBackgroundTwo);
+}
+.output-dragbar {
+    position: absolute;
+    top: -5px;
+    left: 0;
+    right:0;
+    height: 10px
+}
+.status-window[data-state='open'] > .output-dragbar:hover {
+    background-color: white;
+    opacity: 20%;
+    cursor: n-resize;
 }
 
 .status-window {
@@ -47,7 +71,6 @@ html,body {
     height: 22px;
     background-color: var(--appBackgroundOne);
 }
-
 .output-window {
     position: absolute;
     right: 0;

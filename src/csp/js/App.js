@@ -84,6 +84,8 @@ export class App {
         AppDirector.on('Action.LaunchHelp', (helpName) => this.editSpace.launchHelp(helpName));
         AppDirector.on('Action.TextSize', (size) => this.editSpace.setTextSize(size));
         AppDirector.on('Action.MinimiseExplorer', () => this.editSpace.minimiseExplorer());
+        AppDirector.on('Action.ExplorerDragbar', () => this.editSpace.explorerDragbarStart());
+        AppDirector.on('Action.OutputDragbar', () => this.editSpace.outputDragbarStart());
 
         //editor got focus
         AppDirector.on('Message.EditorDidGetFocus', (ev) => this.editSpace.editorDidGetFocus(ev));
