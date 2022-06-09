@@ -8,7 +8,6 @@
 .tab-layout--tabs {
     display: flex;
     flex-direction: row;
-    height: 22px;
 }
 .tab-layout--body {
     flex: 1;

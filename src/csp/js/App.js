@@ -68,7 +68,9 @@ export class App {
         AppDirector.on('Action.ToggleFullScreen', () => (!document.fullscreenElement) ? document.body.requestFullscreen() : document.exitFullscreen() );
         AppDirector.on('Action.StatusWindow', (content) => this.editSpace.toggleStatusWindow(content));
         AppDirector.on('Action.Save', () => this.editSpace.saveDocumentInFocus());
+        AppDirector.on('Action.SaveAll', () => this.editSpace.saveAllDocuments());
         AppDirector.on('Action.Compile', () => this.editSpace.compileDocumentInFocus());
+        AppDirector.on('Action.CompileAllOpen', () => this.editSpace.compileAllOpenDocuments());
         AppDirector.on('Action.FoldAll', () => this.editSpace.foldAll());
         AppDirector.on('Action.UnfoldAll', () => this.editSpace.unfoldAll());
         AppDirector.on('Action.SetTabItemInFocusByName', (tabInfo) => this.editSpace.setTabLayoutInFocusByTabInfo(tabInfo));

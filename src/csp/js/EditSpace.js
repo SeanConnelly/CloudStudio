@@ -48,9 +48,21 @@ export class EditSpace {
         editor.save();
     }
 
+    saveAllDocuments() {
+        this.eachEditor( editor => {
+            editor.save();
+        })
+    }
+
     compileDocumentInFocus() {
         let editor = this.getTabLayoutInFocus().getTabItemInFocus();
         editor.compile();
+    }
+
+    compileAllOpenDocuments() {
+        this.eachEditor( editor => {
+            editor.compile();
+        })
     }
 
     newDocument(docType) {

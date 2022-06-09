@@ -222,7 +222,7 @@ ClassMethod TopMenu() As %Status
 
 		    <div class="menu-divide"></div>
 		    <div onclick="CloudStudioDirector.set('Action.Save')">Save</div>
-		    <div class="disabled">Save All</div>
+		    <div onclick="CloudStudioDirector.set('Action.SaveAll')">Save All</div>
 		    <div class="disabled">Save As...</div>
 		    <div class="disabled">Save Copy As...</div>
 		    <div class="disabled">Rename...</div>
@@ -321,7 +321,7 @@ ClassMethod TopMenu() As %Status
 		  <div class="sub-menu menu-below">
 		    <div onclick="CloudStudioDirector.request('Action.Compile','',false,true)">Compile</div>
 		    <div class="menu-divide"></div>
-		    <div class="disabled">Compile All</div>
+		    <div  onclick="CloudStudioDirector.request('Action.CompileAllOpen','',false,true)">Compile All Open</div>
 		  </div>
 		</button>
 		
