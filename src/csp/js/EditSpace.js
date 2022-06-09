@@ -235,21 +235,29 @@ export class EditSpace {
     //=========================================================================
     toggleMiniMap() {
         let isEnabled = AppDirector.toggle('Model.MiniMap');
-        this.eachEditor( editor => editor.showMiniMap(isEnabled))
+        this.eachEditor( editor => {
+            if (editor.type === 'monaco') editor.showMiniMap(isEnabled)
+        })
     }
 
     toggleLineNumbers() {
         let isOnOrOff = AppDirector.toggle('Model.LineNumbers');
-        this.eachEditor( editor => editor.showLineNumbers(isOnOrOff))
+        this.eachEditor( editor => {
+            if (editor.type === 'monaco') editor.showLineNumbers(isOnOrOff)
+        })
     }
 
     setTheme(themeName) {
         if (themeName === 'light') {
             document.documentElement.setAttribute('light-theme', 'on');
-            this.eachEditor( editor => editor.setThemeLight());
+            this.eachEditor( editor => {
+                if (editor.type === 'monaco') editor.setThemeLight()
+            });
         } else {
             document.documentElement.setAttribute('light-theme', 'off');
-            this.eachEditor( editor => editor.setThemeDark());
+            this.eachEditor( editor => {
+                if (editor.type === 'monaco') editor.setThemeDark()
+            });
         }
     }
 

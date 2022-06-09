@@ -14,6 +14,7 @@ export class Editor {
         this.doc = doc;
         this.mounted = false;
         this.el = $div('editor');
+        this.type = undefined;
 
         if (doc.isDTL) {
             //todo: simple POC to load DTL into editor, replace with a dual loading solution
@@ -34,6 +35,7 @@ export class Editor {
             minimap: {'enabled' : AppDirector.get('Model.MiniMap') },
             lineNumbers: AppDirector.get('Model.LineNumbers')
         })
+        this.type='monaco';
         this.editor.getModel().setEOL(0);
         this.editor.getModel().onDidChangeContent( ev => {this.hasChanged = true; } )
         this.editor.onDidChangeCursorPosition( ev => AppDirector.set("Message.CursorPosition", ev.position) );
