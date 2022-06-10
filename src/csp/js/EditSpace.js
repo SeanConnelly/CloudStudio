@@ -417,58 +417,57 @@ export class EditSpace {
     }
 
     explorerDragbarStart() {
-
         //large tree causes repaint jank, shift explorer hard right and then recalc at last second to prevent jank
         let explorerPanel=document.getElementById('explorerPanel');
         explorerPanel.style.width = '497px';
-
-        document.addEventListener("mousemove", this.explorerDragbarMove);
-        document.addEventListener("mouseup", ev => {
-            this.explorerDragbarMove(ev)
-            document.removeEventListener("mousemove",this.explorerDragbarMove);
-            explorerPanel.style.width = explorerPanel.dataset.movewidth;
-        })
-        document.addEventListener("mouseleave", ev => {
-            document.removeEventListener("mousemove",this.explorerDragbarMove)
-            explorerPanel.style.width = explorerPanel.dataset.movewidth;
-        })
+        document.addEventListener("mousemove", EditSpace.explorerDragbarMove);
+        document.addEventListener("mouseup", EditSpace.explorerDragbarDone)
+        document.addEventListener("mouseleave", EditSpace.explorerDragbarDone)
     }
 
-    explorerDragbarMove(ev) {
+    static explorerDragbarDone(ev) {
+        let explorerPanel=document.getElementById('explorerPanel');
+        EditSpace.explorerDragbarMove(ev)
+        explorerPanel.style.width = explorerPanel.dataset.movewidth;
+        document.removeEventListener("mousemove",EditSpace.explorerDragbarMove);
+        document.removeEventListener("mouseup",EditSpace.explorerDragbarDone);
+        document.removeEventListener("mouseleave",EditSpace.explorerDragbarDone);
+    }
 
+    static explorerDragbarMove(ev) {
         let explorerPanel=document.getElementById('explorerPanel');
         let editSpaceContainer=document.getElementById('editSpaceContainer');
         let statusWindow=document.getElementById('statusWindow');
         let explorerDragbar=document.getElementById('explorerDragbar');
-
         if ((ev.clientX>160) && (ev.clientX<500)) {
             explorerPanel.dataset.movewidth = (ev.clientX - 1) + 'px';
             editSpaceContainer.style.left = (ev.clientX + 1) + 'px';
             statusWindow.style.left = (ev.clientX + 1) + 'px';
             explorerDragbar.style.left = (ev.clientX - 3) + 'px';
         }
-
     }
 
     outputDragbarStart() {
         let statusWindow=document.getElementById('statusWindow');
         if (statusWindow.dataset.state === 'closed') return;
-        document.addEventListener("mousemove", this.outputDragbarMove);
-        document.addEventListener("mouseup", ev => {
-            document.removeEventListener("mousemove",this.outputDragbarMove);
-        })
-        document.addEventListener("mouseleave", ev => {
-            document.removeEventListener("mousemove",this.outputDragbarMove)
-        })
+        document.addEventListener("mousemove", EditSpace.outputDragbarMove);
+        document.addEventListener("mouseup", EditSpace.outputDragbarDone);
+        document.addEventListener("mouseleave", EditSpace.outputDragbarDone);
     }
 
-    outputDragbarMove(ev) {
+    static outputDragbarMove(ev) {
         let editSpaceContainer=document.getElementById('editSpaceContainer');
         let statusWindow=document.getElementById('statusWindow');
         if ((ev.clientY<(window.innerHeight-100)) && (ev.clientY>(window.innerHeight/3))) {
             editSpaceContainer.style.bottom = `calc(100vh - ${(ev.clientY - 1)}px`;
             statusWindow.style.height = `calc(100vh - ${(ev.clientY + 1)}px`;
         }
+    }
+
+    static outputDragbarDone(ev) {
+        document.removeEventListener("mousemove",EditSpace.outputDragbarMove);
+        document.removeEventListener("mouseup",EditSpace.outputDragbarDone);
+        document.removeEventListener("mouseleave",EditSpace.outputDragbarDone);
     }
 
 }
