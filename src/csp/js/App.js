@@ -88,6 +88,13 @@ export class App {
         AppDirector.on('Action.MinimiseExplorer', () => this.editSpace.minimiseExplorer());
         AppDirector.on('Action.ExplorerDragbar', () => this.editSpace.explorerDragbarStart());
         AppDirector.on('Action.OutputDragbar', () => this.editSpace.outputDragbarStart());
+        AppDirector.on('Action.SelectAll', () => this.editSpace.selectAll());
+        AppDirector.on('Action.Undu', () => this.editSpace.undo());
+        AppDirector.on('Action.Redo', () => this.editSpace.redo());
+        AppDirector.on('Action.Cut', () => this.editSpace.cut());
+        AppDirector.on('Action.Copy', () => this.editSpace.copy());
+        AppDirector.on('Action.Paste', () => this.editSpace.paste());
+        AppDirector.on('Action.Delete', () => this.editSpace.delete());
 
         //editor got focus
         AppDirector.on('Message.EditorDidGetFocus', (ev) => this.editSpace.editorDidGetFocus(ev));

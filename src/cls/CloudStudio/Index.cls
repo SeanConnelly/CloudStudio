@@ -237,15 +237,15 @@ ClassMethod TopMenu() As %Status
 		
 		<button class="rel menu-top-button" id="edit-menu">Edit
 		  <div class="sub-menu menu-below">
-		    <div class="disabled">Undu</div>
-		    <div class="disabled">Redu</div>
+		    <div onclick="CloudStudioDirector.set('Action.Undu','',false,true)">Undu</div>
+		    <div onclick="CloudStudioDirector.set('Action.Redo','',false,true)">Redo</div>
 		    <div class="menu-divide"></div>
-		    <div class="disabled">Cut</div>
-		    <div class="disabled">Copy</div> 
-		    <div class="disabled">Paste</div>
+		    <div onclick="CloudStudioDirector.set('Action.Cut','',false,true)">Cut</div>
+		    <div onclick="CloudStudioDirector.set('Action.Copy','',false,true)">Copy</div> 
+		    <div onclick="CloudStudioDirector.set('Action.Paste','',false,true)">Paste</div>
 		    <div class="disabled">Delete</div>
 		    <div class="menu-divide"></div>        
-		    <div class="disabled">Select All</div>
+		    <div onclick="CloudStudioDirector.set('Action.SelectAll','',false,true)">Select All</div>
 		    <div class="menu-divide"></div>        
 		    <div class="disabled">Find...</div>
 		    <div class="disabled">Replace...</div>
@@ -381,7 +381,7 @@ ClassMethod Explorer() As %Status
 	
 	&html<
 	
-	<div class="explorer flex-col" id="explorerPanel">
+	<div class="explorer flex-col" data-state="open" id="explorerPanel">
 		<div class="explorer-title flex-row">
 	  		<span id="namespace"></span>
 	  		<button class="flex-right menu-top-button rel" id="file-menu">

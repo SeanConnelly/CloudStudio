@@ -147,4 +147,36 @@ export class Editor {
         this.editor.destroy();
         this.editor.container.remove();
     }
+
+    selectAll() {
+        const range = this.editor.getModel().getFullModelRange();
+        this.editor.setSelection(range);
+    }
+
+    undo() {
+        this.editor.getModel().undo();
+    }
+
+    redo() {
+        this.editor.getModel().redo();
+    }
+
+    cut() {
+        this.editor.focus();
+        document.execCommand('cut');
+    }
+
+    copy() {
+        this.editor.focus();
+        this.editor.trigger('source','editor.action.clipboardCopyAction');
+    }
+
+    paste() {
+        this.editor.focus();
+        this.editor.trigger('source','editor.action.clipboardPasteAction');
+    }
+
+    delete() {
+        //
+    }
 }

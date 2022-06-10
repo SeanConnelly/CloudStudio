@@ -291,6 +291,34 @@ export class EditSpace {
         if (size === 'ExtraLarge') document.body.style.fontSize = '16px';
     }
 
+    selectAll() {
+        this.getTabLayoutInFocus().getTabItemInFocus().selectAll();
+    }
+
+    undo() {
+        this.getTabLayoutInFocus().getTabItemInFocus().undo();
+    }
+
+    redo() {
+        this.getTabLayoutInFocus().getTabItemInFocus().redo();
+    }
+
+    cut() {
+        this.getTabLayoutInFocus().getTabItemInFocus().cut();
+    }
+
+    copy() {
+        this.getTabLayoutInFocus().getTabItemInFocus().copy();
+    }
+
+    paste() {
+        this.getTabLayoutInFocus().getTabItemInFocus().paste();
+    }
+
+    delete() {
+        this.getTabLayoutInFocus().getTabItemInFocus().delete();
+    }
+
     //=========================================================================
     // UTILS
     //=========================================================================
@@ -373,15 +401,18 @@ export class EditSpace {
         let explorerPanel=document.getElementById('explorerPanel');
         let editSpaceContainer=document.getElementById('editSpaceContainer');
         let statusWindow=document.getElementById('statusWindow');
-        if (explorerPanel.style.left === '-400px') {
+        if (explorerPanel.dataset.state === 'closed') {
+            let width = explorerPanel.style.width;
+            if (width === '') width = '220px';
             explorerPanel.style.left = '0';
-            console.log('?',parseInt(explorerPanel.style.width,10))
-            editSpaceContainer.style.left = (parseInt(explorerPanel.style.width,10) + 2) + 'px';
-            statusWindow.style.left = (parseInt(explorerPanel.style.width,10) + 2) + 'px';
+            editSpaceContainer.style.left = (parseInt(width,10) + 2) + 'px';
+            statusWindow.style.left = (parseInt(width,10) + 2) + 'px';
+            explorerPanel.dataset.state = 'open'
         } else {
-            explorerPanel.style.left = '-400px';
+            explorerPanel.style.left = '-1000px';
             editSpaceContainer.style.left = '0';
             statusWindow.style.left = '0'
+            explorerPanel.dataset.state = 'closed';
         }
     }
 
@@ -393,6 +424,7 @@ export class EditSpace {
 
         document.addEventListener("mousemove", this.explorerDragbarMove);
         document.addEventListener("mouseup", ev => {
+            this.explorerDragbarMove(ev)
             document.removeEventListener("mousemove",this.explorerDragbarMove);
             explorerPanel.style.width = explorerPanel.dataset.movewidth;
         })
