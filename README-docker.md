@@ -64,7 +64,7 @@ docker-compose up -d --build
 ```
 http://localhost:42773/cloudstudio/CloudStudio.Index.cls
 ```
-**[or use Online Demo](https://webstudio.demo.community.intersystems.com/cloudstudio/CloudStudio.Index.cls) :**
+**[or use Online Demo](https://webstudio.demo.community.intersystems.com/cloudstudio/CloudStudio.Index.cls?ns=USER) :**
 
 
 ## Roadmap
