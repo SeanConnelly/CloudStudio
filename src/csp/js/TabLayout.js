@@ -117,7 +117,7 @@ export class TabLayout {
             <div class="disabled">Close Others</div>
             <div class="disabled">Close Others Right</div>
             <div class="disabled">Close Others Left</div>
-            <div className="menu-divide"></div>
+            <div class="menu-divide"></div>
             <div>Move Right</div>
             <div class="disabled">Move Left</div>`
     }

@@ -14,7 +14,7 @@ ClassMethod OnPage() As %Status [ ServerOnly = 1 ]
 	    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js"></script>
 
-		<link rel="stylesheet" data-name="vs/editor/editor.main" href="./lib/monaco/editor/editor.main.css" />
+		<link rel="stylesheet" data-name="vs/editor/editor.main" href="./lib/vs/editor/editor.main.css" />
 		
 		<link rel="icon" href="favicon.png">
 
@@ -86,11 +86,11 @@ ClassMethod OnPage() As %Status [ ServerOnly = 1 ]
 
 
 	<script language="javascript">
-	var require = { paths: { vs: './lib/monaco' } };
+	var require = { paths: { vs: './lib/vs' } };
    </script>
-	<script src="./lib/monaco/loader.js"></script>
-	<script src="./lib/monaco/editor/editor.main.nls.js"></script>
-	<script src="./lib/monaco/editor/editor.main.js"></script>
+	<script src="./lib/vs/loader.js"></script>
+	<script src="./lib/vs/editor/editor.main.nls.js"></script>
+	<script src="./lib/vs/editor/editor.main.js"></script>
 	
 	<script type="module" src="./main.js"></script>
 
@@ -355,6 +355,7 @@ ClassMethod TopMenu() As %Status
 		     <div onclick="CloudStudioDirector.request('Action.LaunchHelp','InterSystems Discord',false,true)">InterSystems Discord</div>
 		     <div class="menu-divide"></div>
 		     <div onclick="CloudStudioDirector.request('Action.LaunchHelp','CloudStudio GitHub',false,true)">CloudStudio GitHub</div>    		     		     
+		     <div onclick="CloudStudioDirector.request('Action.LaunchHelp','CloudStudio Discord',false,true)">CloudStudio Discord</div>
 		  </div>
 		</button>
 		</button>

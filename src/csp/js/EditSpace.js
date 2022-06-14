@@ -130,12 +130,20 @@ export class EditSpace {
     }
 
     addDocumentEditorToTabLayout(tabLayout,docName,documentEditor) {
-        tabLayout.addNewTabToLayout(docName,documentEditor,this.getTabContextMenuFragmentForDocument());
+        tabLayout.addNewTabToLayout(docName,documentEditor,this.getTabContextMenuFragmentForDocument(docName));
     }
 
-    getTabContextMenuFragmentForDocument() {
-        //TODO: Place holder for custom context menu
-        return ``
+    getTabContextMenuFragmentForDocument(docName) {
+        //TODO: Move into IrisDocument class
+        let intMenuItem = '';
+        if (docName.indexOf('.cls') > -1 ) {
+            //TODO: Temp solution, replace with call to fetch full list
+            let intDocName = docName.replace('.cls','.1.int');
+            intMenuItem = `<div onclick="CloudStudioDirector.push('Model.DocumentsOpenForEdit','${intDocName}',true);">View .int Code</div>`
+        }
+        return `<div class="menu-divide"></div>
+                ${intMenuItem}
+            `
     }
 
     setTabLayoutInFocusByTabInfo(tabInfo) {
@@ -395,6 +403,7 @@ export class EditSpace {
         if (helpName === 'InterSystems Community') window.open(`https://community.intersystems.com/`);
         if (helpName === 'InterSystems Discord') window.open(`https://discord.com/channels/698987699406766170/707503143092486145`);
         if (helpName === 'CloudStudio GitHub') window.open(`https://github.com/SeanConnelly/CloudStudio`);
+        if (helpName === 'CloudStudio Discord') window.open(`https://discord.com/channels/985944773078683649/985944773078683652`);
     }
 
     minimiseExplorer() {

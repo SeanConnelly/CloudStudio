@@ -76,6 +76,11 @@ export class Editor {
     }
 
     save(forceSave = false) {
+        if (this.doc.isDTL) {
+            this.el.children[0].contentWindow.window.zenPage.saveDT(false);
+            console.log('xml=',this.el.children[0].contentWindow.document.getElementById('results').innerHTML);
+            AppDirector.set('Message.Console',this.el.children[0].contentWindow.document.getElementById('results').innerHTML);
+        }
         if ((this.hasChanged === false) && (forceSave === false)) {
             AppDirector.set('Message.Console','Save not required, no changes made.');
             return;
@@ -91,6 +96,7 @@ export class Editor {
     }
 
     compile() {
+        if (this.doc.isDTL) {}
         this.save(true)
             .then( () => this.doc.compile())
             .then( res => res.json())
