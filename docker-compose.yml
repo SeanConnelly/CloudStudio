@@ -1,0 +1,14 @@
+version: '3.6'
+services:
+  iris:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    command: --check-caps false
+    restart: always
+    ports:
+      - '41773:1972'
+      - '42773:52773'
+      - 53773
+    volumes:
+      - ./:/external
