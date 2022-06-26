@@ -1,12 +1,12 @@
 import {App} from './App.js';
 import {TabLayout} from "./TabLayout.js";
-import {IrisDocument} from "./IrisDocument.js";
+import {Document} from "./iris/Document.js";
 import {AppDirector} from "./AppDirector.js";
 import {Editor} from "./Editor.js";
 import {PromptBox} from "./Prompt.js"
-import {CodeTemplates} from "./CodeTemplates.js";
+import {CodeTemplates} from "./iris/CodeTemplates.js";
 
-//smallest dom lib in the world
+//tiny dom helper
 const $div = (...cl) => { let div = document.createElement('div'); if (cl) div.classList.add(...cl); return div}
 
 export class EditSpace {
@@ -35,7 +35,7 @@ export class EditSpace {
             this.giveDocumentFocus(docName);
         } else {
             let ns = AppDirector.get('Model.NameSpace');
-            IrisDocument.open(ns,docName).then(doc => {
+            Document.open(ns,docName).then(doc => {
                 let editor = new Editor(doc);
                 let tabLayoutInFocus = this.getTabLayoutInFocus();
                 this.addDocumentEditorToTabLayout(tabLayoutInFocus,docName,editor)
@@ -74,7 +74,7 @@ export class EditSpace {
     makeNewDocument(docNameType) {
         let fullDocName = docNameType.name + '.' + docNameType.type.toLowerCase();
         let src = CodeTemplates.GetTemplate(docNameType.docType,docNameType.name);
-        let doc = new IrisDocument(AppDirector.get('Model.NameSpace'),fullDocName,src);
+        let doc = new Document(AppDirector.get('Model.NameSpace'),fullDocName,src);
         let editor = new Editor(doc);
         this.addDocumentEditorToTabLayout(this.getTabLayoutInFocus(),fullDocName,editor);
         editor.editor.focus();
@@ -139,7 +139,7 @@ export class EditSpace {
         if (docName.indexOf('.cls') > -1 ) {
             //TODO: Temp solution, replace with call to fetch full list
             let intDocName = docName.replace('.cls','.1.int');
-            intMenuItem = `<div onclick="CloudStudioDirector.push('Model.DocumentsOpenForEdit','${intDocName}',true);">View .int Code</div>`
+            intMenuItem = `<div onclick="CloudStudioDirector.push('Model.DocumentsOpenForEdit','${intDocName}',true,true);">View .int Code</div>`
         }
         return `<div class="menu-divide"></div>
                 ${intMenuItem}

@@ -1,6 +1,7 @@
-export class IrisSystem {
+export class System {
 
-    query(ns,queryString,parameters) {
+    static Query(ns,queryString,parameters) {
+
         return fetch(`/api/atelier/v1/${encodeURI(ns)}/action/query`,{
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -9,6 +10,7 @@ export class IrisSystem {
                 parameters: parameters
             })
         })
+        .then( res => res.json())
     }
 
 }

@@ -1,6 +1,6 @@
-import {AppDirector} from './AppDirector.js';
+import {AppDirector} from '../AppDirector.js';
 
-export class IrisDocument {
+export class Document {
 
     constructor(ns,name,content) {
         this.ns = ns;
@@ -15,7 +15,7 @@ export class IrisDocument {
         return new Promise( (resolve,reject) => {
             let url = `/api/atelier/v1/${encodeURI(ns)}/doc/${encodeURI(docName)}`;
             fetch(url).then( res => res.json()).then( data => {
-                resolve(new IrisDocument(ns,docName,data.result.content.join(String.fromCharCode(10))));
+                resolve(new Document(ns,docName,data.result.content.join(String.fromCharCode(10))));
             }).catch( err => {
                 reject(err);
             })

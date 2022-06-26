@@ -3,7 +3,6 @@ import {AppDirector} from './AppDirector.js';
 export class TabLayout {
 
     /**
-     * TODO: V0.1 built in plain old JS, using JSDOC briefly before moving solution to TypeScript (v0.3)
      * @param config Generic config for all views
      * @param {('top'|'bottom')} config.position Position of tabs
      * @param {boolean} config.overflow Display button for overflow dropdown menu
@@ -74,7 +73,8 @@ export class TabLayout {
             AppDirector.set("Actions.EditorTabContextMenu",{'action':action,'name':tabName});
         }
         if (ev.target.nodeName !== 'BUTTON' && ev.target.parentElement.nodeName !== 'BUTTON' && ev.target.parentElement.parentElement.nodeName !== 'BUTTON') {
-            this.getTabItemInFocus().editor.focus();
+            let editor = this.getTabItemInFocus().editor;
+            if (editor) editor.focus();
         }
     }
 

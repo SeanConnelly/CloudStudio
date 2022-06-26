@@ -2,7 +2,10 @@ import {AppDirector} from './AppDirector.js';
 import {Explorer} from './Explorer.js';
 import {EditSpace} from './EditSpace.js';
 import {TopMenu} from './TopMenu.js';
-import {} from './Languages.js';  //required to load ObjectScript language into Monaco at startup
+
+//Import Monaco registrations
+import {} from './iris/Language.js';
+import {} from './iris/CompletionItemProvider.js';
 
 const $cssVar = (key,val) => document.documentElement.style.setProperty('--' + key, val);
 

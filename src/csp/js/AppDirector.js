@@ -35,9 +35,7 @@ export class AppDirector {
     }
 
     static set(key,value = "",persist = true,blur = false) {
-        if (blur) {
-            document.activeElement.blur();
-        }
+        if (blur) document.activeElement.blur();
         if (key !== 'Message.CursorPosition') try { console.log('set (',key,'=',value,' ) from: ',(new Error("StackLog")).stack.split("\n")[2].split('/').pop() ) } catch(err) {}
         AppDirector.data[key] = value;
         if (persist) localStorage.setItem(key, value);
@@ -61,7 +59,8 @@ export class AppDirector {
         })
     }
 
-    static push(key,value,persist = true) {
+    static push(key,value,persist = true,blur = false) {
+        if (blur) document.activeElement.blur();
         if (!AppDirector.data[key]) AppDirector.data[key] = [];
         if (!AppDirector.data[key].includes(value)) {
             AppDirector.data[key].push(value);

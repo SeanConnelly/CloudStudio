@@ -2,11 +2,10 @@ monaco.languages.register({id: 'ObjectScript'});
 
 monaco.languages.setMonarchTokensProvider('ObjectScript', {
 
-
     ignoreCase: true,
 
     classwords: [
-        'as','include','includegenerator','class','classmethod','extends', 'parameter', 'index', 'property', 'method', 'xdata'
+        'As','Include','IncludeGenerator','Class','ClassMethod','Extends', 'Parameter', 'Index', 'Property', 'Method', 'XData'
     ],
 
     keywords: [
@@ -87,4 +86,19 @@ monaco.languages.setMonarchTokensProvider('ObjectScript', {
     }
 
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
