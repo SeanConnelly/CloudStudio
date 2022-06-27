@@ -1,4 +1,5 @@
 import {AppDirector} from "./AppDirector.js";
+import {Document} from "./iris/Document.js";
 
 const $div = (...cl) => { let div = document.createElement('div'); if (cl) div.classList.add(...cl); return div}
 
@@ -15,7 +16,6 @@ export class Editor {
         this.mounted = false;
         this.el = $div('editor');
         this.type = undefined;
-
         if (doc.isDTL) {
             //todo: simple POC to load DTL into editor, replace with a dual loading solution
             this.createDTLEditor(doc);
@@ -75,6 +75,14 @@ export class Editor {
         },1000)
     }
 
+    reload() {
+        //window.setTimeout( () => {
+            this.doc.reload().then( () => {
+                this.editor.getModel().setValue(this.doc.content);
+            })
+        //},1000)
+    }
+
     save(forceSave = false) {
         if (this.doc.isDTL) {
             this.el.children[0].contentWindow.window.zenPage.saveDT(false);
@@ -105,7 +113,7 @@ export class Editor {
                     .replace('ERROR','<span style="color:red;">ERROR</span>')
                     .replace('Compilation finished successfully','<span style="color:green;">Compilation finished successfully</span>')
                 AppDirector.set('Message.Console',msg,false)
-
+                this.reload();
             })
             .catch( err => AppDirector.set('Message.Console',err,false) );
     }

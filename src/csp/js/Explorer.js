@@ -106,7 +106,7 @@ export class Explorer {
 
     addOtherItem(root,item) {
         let nodes = item.name.split('.');
-        let type = nodes.pop();
+        let type = nodes.pop().toUpperCase();
         if (type === 'HL7') nodes = [nodes.join('.')]
         nodes.unshift(type);
         nodes.push(nodes.pop() + '.' + type)

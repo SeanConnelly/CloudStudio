@@ -286,6 +286,11 @@ export class EditSpace {
         editor.trigger('fold','editor.foldAll')
     }
 
+    foldLevel(level) {
+        let editor = this.getTabLayoutInFocus().getTabItemInFocus().editor;
+        editor.trigger('fold','editor.foldLevel' + level)
+    }
+
     unfoldAll() {
         let editor = this.getTabLayoutInFocus().getTabItemInFocus().editor;
         editor.trigger('unfold','editor.unfoldAll')

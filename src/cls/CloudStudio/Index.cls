@@ -297,8 +297,20 @@ ClassMethod TopMenu() As %Status
 		    <div class="menu-divide"></div>
 		    <div class="disabled" onclick="CloudStudioDirector.request('Action.ViewOtherCode','',false,true)">View Other Code</div>
 		    <div class="menu-divide"></div>
-		    <div onclick="CloudStudioDirector.request('Action.FoldAll','',false,true)">Fold Code</div>
-		    <div onclick="CloudStudioDirector.request('Action.UnfoldAll','',false,true)">Unfold Code</div>
+		    <div class="rel">Fold
+		    	<span class="float-right"><i class="fas fa-angle-right"></i></span>
+			    <div class="sub-menu menu-aside">
+			    	<div onclick="CloudStudioDirector.set('Action.FoldLevel','1',false,true)">Level 1</div>
+			    	<div onclick="CloudStudioDirector.set('Action.FoldLevel','2',false,true)">Level 2</div>
+			    	<div onclick="CloudStudioDirector.set('Action.FoldLevel','3',false,true)">Level 3</div>
+			    	<div onclick="CloudStudioDirector.set('Action.FoldLevel','4',false,true)">Level 4</div>			    				    	
+			    	<div onclick="CloudStudioDirector.set('Action.FoldLevel','5',false,true)">Level 5</div>
+			    	<div onclick="CloudStudioDirector.set('Action.FoldLevel','6',false,true)">Level 6</div>
+			    	<div onclick="CloudStudioDirector.set('Action.FoldLevel','7',false,true)">Level 7</div>
+			    </div>	
+		    </div>
+		    <div onclick="CloudStudioDirector.request('Action.FoldAll','',false,true)">Fold All Code</div>
+		    <div onclick="CloudStudioDirector.request('Action.UnfoldAll','',false,true)">Unfold All Code</div>
 	     </div>
 		</button>
 

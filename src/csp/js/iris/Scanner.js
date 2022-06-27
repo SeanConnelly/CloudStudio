@@ -29,7 +29,7 @@ export class Scanner {
         let args = line.split('(')[1].split(')')[0].split(',');
         args.forEach( arg => {
             let [argName,argType] = arg.split(' As ');
-            if (vname === argName.trim()) className = argType.trim();
+            if (vname === argName.trim() && argType) className = argType.trim();
         })
 
         return {className: className, methodName: ''}

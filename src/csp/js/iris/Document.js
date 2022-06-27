@@ -12,13 +12,25 @@ export class Document {
     }
 
     static open(ns,docName) {
+        let urlName = docName;
+        if (urlName.slice(-3) === 'dtl') urlName = urlName.slice(0,-3) + 'cls';
+        if (urlName.slice(-3) === 'bpl') urlName = urlName.slice(0,-3) + 'cls';
         return new Promise( (resolve,reject) => {
-            let url = `/api/atelier/v1/${encodeURI(ns)}/doc/${encodeURI(docName)}`;
+            let url = `/api/atelier/v1/${encodeURI(ns)}/doc/${encodeURI(urlName)}`;
             fetch(url).then( res => res.json()).then( data => {
                 resolve(new Document(ns,docName,data.result.content.join(String.fromCharCode(10))));
             }).catch( err => {
                 reject(err);
             })
+        })
+    }
+
+    reload() {
+        let url = `/api/atelier/v1/${encodeURI(this.ns)}/doc/${encodeURI(this.name)}`;
+        return fetch(url).then( res => res.json()).then( data => {
+            this.content = data.result.content.join(String.fromCharCode(10));
+        }).catch( err => {
+
         })
     }
 

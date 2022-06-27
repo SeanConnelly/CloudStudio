@@ -74,6 +74,7 @@ export class App {
         AppDirector.on('Action.SaveAll', () => this.editSpace.saveAllDocuments());
         AppDirector.on('Action.Compile', () => this.editSpace.compileDocumentInFocus());
         AppDirector.on('Action.CompileAllOpen', () => this.editSpace.compileAllOpenDocuments());
+        AppDirector.on('Action.FoldLevel', (level) => this.editSpace.foldLevel(level));
         AppDirector.on('Action.FoldAll', () => this.editSpace.foldAll());
         AppDirector.on('Action.UnfoldAll', () => this.editSpace.unfoldAll());
         AppDirector.on('Action.SetTabItemInFocusByName', (tabInfo) => this.editSpace.setTabLayoutInFocusByTabInfo(tabInfo));
