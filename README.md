@@ -1,5 +1,15 @@
 # Cloud Studio
 
+Update: 27/06/2022
+
+All efforts are currently focused on core development for an Alpha release.
+
+Documentation will be updated once the Alpha release is ready.
+
+Continue to use the project for evaluation purposes only for the time being.
+
+The goal is to have an Alpha release ready towards the end of July.
+
 ## Introduction
 
 Welcome to a very early Preview release of Cloud Studio, a code editor for InterSystems Iris. Documentation will follow an Alpha release.
