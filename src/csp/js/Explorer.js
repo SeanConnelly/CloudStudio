@@ -1,5 +1,6 @@
 import {AppDirector} from './AppDirector.js';
 import {CompletionItemDictionary} from './iris/CompletionItemDictionary.js';
+import {Document} from './iris/Document.js'
 
 export class Explorer {
 
@@ -8,14 +9,6 @@ export class Explorer {
         this.codeTreeEl.addEventListener('dblclick', ev => this.menuAction(ev));
         this.codeTreeEl.addEventListener('touchstart', ev => this.menuAction(ev));
         AppDirector.bindInnerText('namespace','Model.NameSpace');
-    }
-
-    swapNamespace(ns) {
-        //'<div class="pad-3em center width100"><br><br>Initialising Namespace Connection<br><br><i class="fas fa-spinner fa-spin"></i></div>';
-        let folder = name => `<div class="explorer-tree-node"><i class="fa-solid fa-folder folder-color"></i> ${name}<div class="explorer-tree-hidden" id="explorer-node-${name}"><span class="pad-left-1em"><i class="fas fa-spinner fa-spin"></i> Loading</span></div></div>`
-        this.codeTreeEl.innerHTML = folder('Classes') + folder('Routines') + folder('Web') + folder('Other');
-        document.activeElement.blur();
-        this.loadNamespace(ns);
     }
 
     menuAction(ev) {
@@ -36,12 +29,10 @@ export class Explorer {
         }
     }
 
-    //TODO: Preload top level packages and folder, then lazy load full contents of each as needed
-    // /docnames/:cat/:type?filter=
-    // cat = *,CLS,RTN,CSP,OTH
-    // type = cls,mac,int,inc,bas,mvi,mvb
-    // filter = Name Like %filter%
-    loadNamespace(ns) {
+    swapNamespace(ns) {
+        let folder = name => `<div class="explorer-tree-node"><i class="fa-solid fa-folder folder-color"></i> ${name}<div class="explorer-tree-hidden" id="explorer-node-${name}"><span class="pad-left-1em"><i class="fas fa-spinner fa-spin"></i> Loading</span></div></div>`
+        this.codeTreeEl.innerHTML = folder('Classes') + folder('Routines') + folder('Web') + folder('Other');
+        document.activeElement.blur();
         this.codeTree = {Classes:{},Routines:{},Web:{},Other:{}};
         this.loadClasses(ns);
         this.loadRoutines(ns);
@@ -50,45 +41,36 @@ export class Explorer {
     }
 
     loadClasses(ns) {
-        fetch(`/api/atelier/v1/${encodeURI(ns)}/docnames/CLS`) .then( res => res.json()).then( data => {
-            this.updateCodeTree(ns,data);
+        Document.listAllByType(ns,'CLS').then( data => {
+            data.result.content.map(item =>  {
+                if ((item.db.indexOf('IRIS') === 0) && (ns !== '%SYS')) return;
+                if (item.db.indexOf('IRIS') === 0) CompletionItemDictionary.addClassItem(item.name);
+                this.addTreeItem(this.codeTree.Classes,item);
+                CompletionItemDictionary.addClassItem(item.name);
+            })
             document.getElementById('explorer-node-Classes').innerHTML = this.walkTreeMakeHTML(this.codeTree.Classes);
         })
     }
 
     loadRoutines(ns) {
-        fetch(`/api/atelier/v1/${encodeURI(ns)}/docnames/RTN`) .then( res => res.json()).then( data => {
-            this.updateCodeTree(ns,data);
+        Document.listAllByType(ns,'RTN').then( data => {
+            data.result.content.map(item => this.addTreeItem(this.codeTree.Routines,item))
             document.getElementById('explorer-node-Routines').innerHTML = this.walkTreeMakeHTML(this.codeTree.Routines);
         })
     }
 
     loadWeb(ns) {
-        fetch(`/api/atelier/v1/${encodeURI(ns)}/docnames/CSP`) .then( res => res.json()).then( data => {
-            this.updateCodeTree(ns,data);
+        Document.listAllByType(ns,'CSP').then( data => {
+            data.result.content.map(item => this.addCspTreeItem(this.codeTree.Web,item))
             document.getElementById('explorer-node-Web').innerHTML = this.walkTreeMakeHTML(this.codeTree.Web);
         })
     }
 
     loadOther(ns) {
-        fetch(`/api/atelier/v1/${encodeURI(ns)}/docnames/OTH`) .then( res => res.json()).then( data => {
-            this.updateCodeTree(ns,data);
+        Document.listAllByType(ns,'OTH').then( data => {
+            data.result.content.map(item => this.addOtherItem(this.codeTree.Other,item))
             document.getElementById('explorer-node-Other').innerHTML = this.walkTreeMakeHTML(this.codeTree.Other);
         })
-    }
-
-    updateCodeTree(ns,data) {
-        for (let item of data.result.content) {
-            if (item.db.indexOf('IRIS') === 0) CompletionItemDictionary.addClassItem(item.name);
-            if ((item.db.indexOf('IRIS') === 0) && (ns !== '%SYS')) continue;
-            if (item.cat === 'CLS') {
-                this.addTreeItem(this.codeTree.Classes,item);
-                CompletionItemDictionary.addClassItem(item.name);
-            }
-            if (item.cat === 'RTN') this.addTreeItem(this.codeTree.Routines,item);
-            if (item.cat === 'CSP') this.addCspTreeItem(this.codeTree.Web,item);
-            if (item.cat === 'OTH') this.addOtherItem(this.codeTree.Other,item);
-        }
     }
 
     addTreeItem(root,item) {
@@ -122,23 +104,31 @@ export class Explorer {
         root['|'+name] = {"name":name,"fullName":fullName}; //add pipe prefix to separate nodes from leaves with same name
     }
 
-    walkTreeMakeHTML(parentNode) {
-        let html1 = '';
-        let html2 = '';
-        Object.getOwnPropertyNames(parentNode).map( key => {
-            let childNode = parentNode[key];
-            if (key.indexOf('|') !== 0) {
-                html1 = html1 + `<div class="explorer-tree-node">
-                                    <i class="fa-solid fa-folder folder-color"></i> ${key}
-                                    <div class="explorer-tree-hidden">${this.walkTreeMakeHTML(childNode)}</div>
-                                 </div>`;
+    walkTreeMakeHTML(parentFolder) {
+        let foldersHtml = '';
+        let filesHtml = '';
+        Object.getOwnPropertyNames(parentFolder).map( folderName => {
+            let child = parentFolder[folderName];
+            if (folderName.indexOf('|') !== 0) {
+                foldersHtml += this.makeFolderHtmlNode(folderName,this.walkTreeMakeHTML(child));
             } else {
-                html2 = html2 + `<div class="explorer-tree-leaf" data-name="${childNode.fullName}">
-                                    <span class="nowrap"><i class="fa-solid fa-file-lines"></i> ${childNode.name}</span>
-                                 </div>`;
+                filesHtml += this.makeFileHtmlNode(child.fullName,child.name);
             }
         })
-        return html1 + html2;
+        return foldersHtml + filesHtml;
+    }
+
+    makeFolderHtmlNode(folderName,subFolders) {
+        return `<div class="explorer-tree-node">
+                  <i class="fa-solid fa-folder folder-color"></i> ${folderName}
+                  <div class="explorer-tree-hidden">${subFolders}</div>
+                </div>`
+    }
+
+    makeFileHtmlNode(fileName,displayName) {
+        return `<div class="explorer-tree-leaf" data-name="${fileName}">
+                    <span class="nowrap"><i class="fa-solid fa-file-lines"></i> ${displayName}</span>
+                </div>`
     }
 
     expandAll() {
@@ -158,6 +148,12 @@ export class Explorer {
             el.lastElementChild.classList.add('explorer-tree-hidden');
             el.firstElementChild.classList.add('fa-folder');
             el.firstElementChild.classList.remove('fa-folder-open');
+        }
+    }
+
+    addNodeToHTML(type,name) {
+        if (type === 'CLS') {
+
         }
     }
 

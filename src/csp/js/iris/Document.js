@@ -69,9 +69,13 @@ export class Document {
         return (this.content.indexOf('Ens.DataTransformDTL') > -1)
     }
 
-    //TODO: shift responsibility for listing (fetching from server) the Iris documents
-    static listAll(ns) {}
-    static listByType(ns,type) {}
+    static listAll(ns) {
+        return fetch(`/api/atelier/v1/${encodeURI(ns)}/docnames`).then( res => res.json())
+    }
+
+    static listAllByType(ns,type) {
+        return fetch(`/api/atelier/v1/${encodeURI(ns)}/docnames/` + type).then( res => res.json())
+    }
 
 }
 

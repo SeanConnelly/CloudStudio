@@ -12,7 +12,7 @@ class Provider {
         // get text from start of line to position of cursor
         let currentEditLine = model.getValueInRange({startLineNumber: position.lineNumber, startColumn: 0, endLineNumber: position.lineNumber, endColumn: position.column});
 
-        // if in comment or string then skip giving suggestions
+        // if in comment or string then skip giving suggestions (single line comment)
         if (Provider.isInCommentOrString(currentEditLine)) return { suggestions: [] };
 
         //rewind to the trigger character
@@ -115,7 +115,7 @@ class Provider {
     }
 
     static getObjectMemberSuggestions(currentEditLine,model,position,range) {
-        let tokens = currentEditLine.replace(/=,\(/," ").split(" ").pop().split('.');
+        let tokens = currentEditLine.replace(/[=,(]/," ").split(" ").pop().split('.');
         tokens.pop();
         let vname=tokens.pop();
         let {className,methodName} = Scanner.scanForVariableType(vname,model,position);
