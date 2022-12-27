@@ -10,8 +10,10 @@ export class Dictionary {
 
 }
 
+/*
 Dictionary.getClassStaticMembers('IWS','User.SampleClass').then( response => {
     console.log('response ------');
     console.log(response.result.content);
     console.log('-------');
 })
+*/

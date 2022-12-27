@@ -2,6 +2,10 @@ export class Scanner {
 
     static scanForVariableType(vname,model,position) {
 
+        if (vname === '%request') return {className: '%CSP.Request', methodName: '%New'}
+        if (vname === '%response') return {className: '%CSP.Response', methodName: '%New'}
+        if (vname === '%session') return {className: '%CSP.Session', methodName: '%New'}
+
         let re=/[Ss][Ee]?[Tt]? ([\^%\w]+?)? *= *##class\((.+?)\)\.(.+?)\(/g
 
         let lineNo = position.lineNumber;
