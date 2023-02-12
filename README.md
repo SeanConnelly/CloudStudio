@@ -6,10 +6,6 @@ A work in progress IDE for IRIS.
 
 ## Installation
 
-### ZPM Installation
-
-zpm "install cloudstudio"
-
 ### Manual Installation
 
 1. Download the project from GitHub and save / unpack the project files into a suitable drive + folder location.
@@ -37,16 +33,3 @@ zpm "install cloudstudio"
 ```
 http://localhost:52773/cloudstudio/CloudStudio.Index.cls
 ```
-
-## Roadmap
-
-1. Release a working beta a.s.a.p
-2. Make Cloud Studio a stable code editor that is fit for production
-3. Continually add new features until it's a complete and battle tested IDE
-4. Focus on 10x developer productivity
-
-The project is currently in high flux as it works towards a beta release. There are numerous features that are greyed out / disabled in the app at the moment. These will be completed in the coming weeks.
-
-**A more detailed list of requirements for the Roadmap are listed on the wiki page**
-
-https://github.com/SeanConnelly/CloudStudio/wiki/Requirements
