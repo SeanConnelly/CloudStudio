@@ -18,7 +18,7 @@ A work in progress IDE for IRIS.
 
 3. Configure a new web application  
   3.1. Using the "Management Portal", create a new web application, name it "/cloudstudio"  
-  3.2. Configure the "Physical Path" to point to the sub folder "\src\csp\" at the location in step 1.  
+  3.2. Configure the "Physical Path" to point to the sub folder "\src\web\" at the location in step 1.  
   3.3 Give the application a suitable role  
 
 
