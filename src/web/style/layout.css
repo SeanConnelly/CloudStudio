@@ -1,0 +1,189 @@
+html,body {
+    font-family: "Segoe UI";
+    font-size: 12px;
+    overflow: hidden;
+}
+
+.viewport {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--appViewportBackground);
+    user-select: none;
+}
+.menu-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 24px;
+    background-color: var(--appBackgroundTwo);
+    padding-left: 0.25em;
+}
+.explorer {
+    position: absolute;
+    top: 26px;
+    left: 0;
+    bottom: 0;
+    width: 220px;
+    background-color: var(--appExplorerBackground);
+}
+.explorer-dragbar {
+    position: absolute;
+    top: 26px;
+    bottom: 0;
+    left: 219px;
+    width: 4px;
+    z-index: 10;
+}
+.explorer-dragbar:hover {
+    background-color: white;
+    opacity: 20%;
+    cursor: e-resize;
+}
+.editors {
+    position: absolute;
+    top: 26px;
+    right: 0;
+    bottom: 24px;
+    left: 222px;
+    background-color: var(--appBackgroundTwo);
+}
+.output-dragbar {
+    position: absolute;
+    top: -5px;
+    left: 0;
+    right:0;
+    height: 10px;
+    z-index: 1000;
+}
+.status-window[data-state='open'] > .output-dragbar:hover {
+    background-color: white;
+    opacity: 20%;
+    cursor: n-resize;
+}
+
+.status-window {
+    position: absolute;
+    right: 0;
+    left: 222px;
+    bottom: 0;
+    height: 22px;
+    background-color: var(--appBackgroundOne);
+}
+.output-window {
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    top: 22px;
+    background-color: var(--appBackgroundOne);
+    color: var(--appTextColor);
+    overflow: auto;
+    padding: 1em;
+    user-select: text;
+}
+.terminal-window {
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    top: 22px;
+    user-select: auto;
+}
+
+.status-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 22px;
+    background-color: var(--appBackgroundTwo);
+    color: #bbb;
+}
+.status-bar-tabs {
+    align-items: center;
+    justify-content: left;
+}
+.status-bar-tabs button {
+    margin-left: 2px;
+}
+.status-bar-status {
+    align-items: center;
+    justify-content: center;
+}
+.status-bar-info {
+    align-items: center;
+    justify-content: right;
+}
+.status-bar-info div {
+    margin-right: 1em;
+}
+.status-bar-button {
+    font-size: 90%;
+    color: var(--appTextColorFour);
+    text-align: center;
+    margin: 2px;
+    padding-bottom: 1px;
+    background-color: var(--appBackgroundThree);
+    box-shadow: 1px 1px 2px var(--appBackgroundTwo);
+    padding-left: 1em;
+    padding-right: 1em;
+}
+.status-bar-button:hover {
+    background-color: var(--appPrimaryColor);
+    color: white;
+}
+
+.prompt-box {
+    color: var(--appTextColor);
+    z-index:1000;
+}
+.prompt-box--panel {
+    background-color: var(--appBackgroundTwo);
+    border: 1px solid var(--appBackgroundFive);
+    box-shadow: 2px 2px 4px var(--appBackground);
+}
+.prompt-box--title {
+    background-color: var(--appBackgroundThree);
+    padding: 0.5em 1em;
+}
+.prompt-box--body {
+    padding: 1em;
+}
+.prompt-box--footer {
+    padding: 1em;
+}
+.prompt-box--button {
+    background-color: var(--appBackgroundFive);
+    border: 1px solid var(--appBackgroundFive);
+    padding: 0.14em 0.4em;
+    min-width: 4em;
+    text-align: center;
+}
+
+.prompt-box--button:hover, .prompt-box--button:focus {
+    border: 1px solid var(--appTextColor);
+}
+
+.prompt-box--input {
+    background-color: var(--appBackgroundFive);
+    padding: 0.5em;
+    min-width: 360px;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--appScrollbarThumb);
+}
+::-webkit-scrollbar-track {
+    background-color: var(--appScrollbarTrack);
+}
+::-webkit-scrollbar-corner {
+    background-color: var(--appScrollbarTrack);
+}

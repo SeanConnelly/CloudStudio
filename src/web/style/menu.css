@@ -1,0 +1,137 @@
+button {
+    color: #bbb;
+    border: 0;
+    outline: none;
+}
+button:hover {
+    --background: var(--appBackgroundThree);
+    cursor: pointer;
+}
+.icon-button {
+    color: #999;
+    text-align: center;
+    margin: 3px;
+    min-width: 2em;
+    padding-bottom: 1px;
+    background-color: var(--appBackgroundThree);
+    box-shadow: 1px 1px 2px var(--appBackgroundOne);
+    padding-left: 1em;
+    padding-right: 1em;
+}
+.icon-button:hover {
+    background-color: var(--appPrimaryColor);
+    color: var(--appTextColor);
+}
+.menu-button {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+.menu-button:hover {
+    background: rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+
+.menu-top-button {
+    color: var(--appTextColorTwo);
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+.menu-top-button:focus {
+    background-color: var(--appPrimaryColor);
+    color: var(--appTextColor);
+}
+
+.menu-top-button:focus .menu-below {
+    display: block;
+}
+.menu-top-button:focus .menu-below-right {
+    display: block;
+}
+
+.menu-tab-button {
+    padding-left: 0.5em;
+    color: #888;
+}
+.menu-tab-button:focus {
+    color: var(--appPrimaryColor);
+}
+.menu-tab-button:hover {
+    color: var(--appPrimaryColor);
+}
+.menu-tab-button:focus .menu-below {
+    display: block;
+}
+.menu-tab-button:focus .menu-below-right {
+    display: block;
+}
+.sub-menu {
+    z-index:100;
+    position: absolute;
+    background-color: var(--appBackgroundThree);
+    color: var(--appTextColor);
+    min-width: 12em;
+    text-align: left;
+    padding: 0.5em 0;
+    box-shadow: 3px 5px 6px 0 rgba(0,0,0,10);
+    border-left: 0.1em solid var(--appBackgroundFour);
+    border-right: 0.1em solid var(--appBackgroundFour);
+    white-space: nowrap;
+}
+
+.sub-menu > div:not(.menu-divide):not(.disabled) {
+    cursor: pointer;
+    padding: 0.2em 0.5em;
+}
+.sub-menu > div:hover:not(.menu-divide):not(.disabled) {
+    background-color: var(--appPrimaryColor);
+    color: var(--appTextColor);
+}
+.sub-menu > div:active {
+    background-color: var(--appPrimaryColor);
+    color: var(--appTextColor);
+}
+.sub-menu > div:hover .sub-menu {
+    display: block;
+}
+.menu-below {
+    left: 0;
+    top: 22px;
+    display: none;
+}
+.menu-below-right {
+    right: 0;
+    top: 22px;
+    display: none;
+}
+.menu-aside {
+    top: 0;
+    left: 11.8em;
+    z-index: 10000 !important;
+    display: none;
+}
+.menu-aside::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -4em;
+    width: 4em;
+}
+.menu-aside:hover {
+    display: none;
+}
+.menu-divide {
+    border-top: 0.05em solid var(--appBackgroundFive);
+    background-color: var(--appBackgroundFive);
+    border-bottom: 0.05em solid var(--appBackgroundFive);
+    margin: 0.5em;
+}
+.disabled {
+    color: #888;
+    padding: 0.2em 0.5em;
+}
+.menu-view--color {
+    display: inline-block;
+    width: 2em;
+    margin-right: 0.5em;
+}
