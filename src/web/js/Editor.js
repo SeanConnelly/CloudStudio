@@ -178,10 +178,14 @@ export class Editor {
                         let span = spans[spans.length-1];
                         let tr = span.closest('tr').cloneNode(true);
                         tr.style.color = 'var(--appTextColorFive)';
-                        let html = tr.querySelector('pre').innerHTML;
-                        //if its XML then lets add some formatting to make the XML values pop
-                        if (html.charAt(0) === '<') {
-                            tr.querySelector('pre').innerHTML = html.replaceAll(/(&gt;)(.*)(&lt;\/)/g,"$1<span class='primary-color''>$2</span>$3")
+                        let pre = tr.querySelector('pre');
+                        if (pre !== null) {
+                            let html = pre.innerHTML;
+                            let text = pre.innerText;
+                            //if its XML then lets add some formatting to make the XML values pop
+                            if (text.charAt(0) === '<') {
+                                tr.querySelector('pre').innerHTML = html.replaceAll(/(&gt;)(.*)(&lt;\/)/g,"$1<span class='primary-color''>$2</span>$3")
+                            }
                         }
                         //send a clone of the results to the message console
                         AppDirector.set('Message.Console',{
