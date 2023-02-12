@@ -65,8 +65,8 @@ export class Document {
     }
 
     checkIsDTL() {
-        //simple text match for now, todo - replace with cleaner solution
-        return (this.content.indexOf('Ens.DataTransformDTL') > -1)
+        //TODO: simple text match for now, replace with cleaner solution
+        return (this.content.indexOf('Extends Ens.DataTransformDTL') > -1)
     }
 
     static listAll(ns) {

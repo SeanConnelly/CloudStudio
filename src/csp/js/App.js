@@ -35,6 +35,12 @@ export class App {
         //mounts
         this.editSpace.mount(this.editSpaceEl)
 
+        //add shim to prevent dragbar events from leaking into editor events
+        let editShim = document.createElement('div');
+        editShim.classList.add('edit-shim');
+        editShim.id="edit-shim"
+        this.editSpaceEl.appendChild(editShim);
+
         //initialise (for now, debounce to allow Index page to init AppData defaults, todo: refactor to remove debounce)
         window.setTimeout(() => this.initialise(),25);
 

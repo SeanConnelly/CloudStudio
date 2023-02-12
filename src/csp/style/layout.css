@@ -56,7 +56,8 @@ html,body {
     top: -5px;
     left: 0;
     right:0;
-    height: 10px
+    height: 10px;
+    z-index: 1000;
 }
 .status-window[data-state='open'] > .output-dragbar:hover {
     background-color: white;
@@ -82,7 +83,7 @@ html,body {
     color: var(--appTextColor);
     overflow: auto;
     padding: 1em;
-    user-select: auto;
+    user-select: text;
 }
 .terminal-window {
     position: absolute;

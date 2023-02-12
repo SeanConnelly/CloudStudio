@@ -51,28 +51,41 @@ export class Editor {
             <iframe style="width:100%;height:100%;overflow:hidden;" src="EnsPortal.DTLEditor.zen?DT=${name}&STUDIO=1"></iframe>
         `
         //this.el.children[0].style.zoom = '0.75';
-        window.setTimeout( () => {
-            //remove inner overflow to clean up scrollbar real estate
-            let iframeBody=this.el.children[0].contentWindow.document.body;
+        window.setTimeout( () => { this.enhanceDTLEditorStyle(); },1000)
+    }
 
-            //scale experiments
-            //iframeBody.style.transform='scale(0.7)';
+    enhanceDTLEditorStyle() {
+        //remove inner overflow to clean up scrollbar real estate
+        let iframeBody=this.el.children[0].contentWindow.document.body;
+        let innerSVG=iframeBody.getElementsByTagName('embed')[0].getSVGDocument().firstChild;
 
-            iframeBody.style.overflow = 'hidden';
-            //reduce size of images
-            let imgs = iframeBody.querySelectorAll('img');
-            for (let i=0; i<imgs.length; i++) {
-                let img = imgs[i];
-                img.style.maxWidth = '16px';
-                img.style.maxHeight = '16px';
+        iframeBody.style.overflow = 'hidden';
+
+        //reduce size of images
+        let imgs = iframeBody.querySelectorAll('img');
+        for (let i=0; i<imgs.length; i++) {
+            let img = imgs[i];
+            img.style.maxWidth = '16px';
+            img.style.maxHeight = '16px';
+        }
+
+        //reduce size of ribbon
+        let ribbon = iframeBody.querySelector('.toolRibbon');
+        ribbon.style.height = '26px';
+        ribbon.firstElementChild.style.height = '26px';
+
+        //force resize
+        this.el.children[0].contentWindow.window.dispatchEvent(new Event('resize'));
+
+        //inject css to highlight active and hidden lines
+        let styleElement = document.createElement('style')
+        styleElement.innerHTML = `
+            .DTLActionSelected {
+                stroke: rgb(5,205,235) !important;
             }
-            //reduce size of ribbon
-            let ribbon = iframeBody.querySelector('.toolRibbon');
-            ribbon.style.height = '26px';
-            ribbon.firstElementChild.style.height = '26px';
-            //force resize
-            this.el.children[0].contentWindow.window.dispatchEvent(new Event('resize'));
-        },1000)
+        `
+        innerSVG.insertBefore(styleElement,innerSVG.firstChild);
+
     }
 
     reload() {
@@ -84,36 +97,103 @@ export class Editor {
     }
 
     save(forceSave = false) {
+        //SAVE DTL
         if (this.doc.isDTL) {
+            //hijack the basic alert function, capture its text and display to the output window (applied to compile as well)
+            this.el.children[0].contentWindow.window.alert = function(text) {
+                AppDirector.set('Message.Console',{
+                    title: 'save',
+                    state: 'info',
+                    text: text
+                });
+            }
+            this.el.children[0].contentWindow.window.zenPage.studioMode=false;
             this.el.children[0].contentWindow.window.zenPage.saveDT(false);
-            console.log('xml=',this.el.children[0].contentWindow.document.getElementById('results').innerHTML);
-            AppDirector.set('Message.Console',this.el.children[0].contentWindow.document.getElementById('results').innerHTML);
+        } else {
+            if ((this.hasChanged === false) && (forceSave === false)) {
+                AppDirector.set('Message.Console',{
+                    title: 'save',
+                    state: 'info',
+                    text: 'no changes'
+                });
+            } else {
+                this.doc.content = this.editor.getModel().getValue();
+                return this.doc.save()
+                    .then( res => res.json())
+                    .then( data => {
+                        AppDirector.set('Message.Console',{
+                            title: 'save',
+                            state: 'info',
+                            text: this.doc.name + ' saved'
+                        });
+                        this.hasChanged = false;
+                    })
+                    .catch( err => { AppDirector.set('Message.Console',err,false) });
+            }
         }
-        if ((this.hasChanged === false) && (forceSave === false)) {
-            AppDirector.set('Message.Console','Save not required, no changes made.');
-            return;
-        }
-        this.doc.content = this.editor.getModel().getValue();
-        return this.doc.save()
-            .then( res => res.json())
-            .then( data => {
-                AppDirector.set('Message.Console','<br>' + this.doc.name + ' saved.',false);
-                this.hasChanged = false;
-            })
-            .catch( err => { AppDirector.set('Message.Console',err,false) });
     }
 
     compile() {
-        if (this.doc.isDTL) {}
-        this.save(true)
-            .then( () => this.doc.compile())
+        if (this.doc.isDTL) {
+            this.save(true);
+            window.setTimeout( () => {
+                this.compileDTL()
+            })
+        } else {
+            this.save(true)
+                .then( () => this.doc.compile())
+                .then( res => res.json())
+                .then( data => {
+                    let msg = data.console.join('<br>')
+                        .replace('ERROR','<span style="color:red;">ERROR</span>')
+                        .replace('Compilation finished successfully','<span style="color:green;">Compilation finished successfully</span>')
+                    AppDirector.set('Message.Console',msg,false)
+                    this.reload();
+                })
+                .catch( err => AppDirector.set('Message.Console',err,false) );
+        }
+    }
+
+    compileDTL() {
+        this.save(true);
+        this.doc.compile()
             .then( res => res.json())
             .then( data => {
                 let msg = data.console.join('<br>')
                     .replace('ERROR','<span style="color:red;">ERROR</span>')
                     .replace('Compilation finished successfully','<span style="color:green;">Compilation finished successfully</span>')
-                AppDirector.set('Message.Console',msg,false)
-                this.reload();
+                AppDirector.set('Message.Console', {
+                    html: msg
+                },false);
+                //launch DTL test window
+                this.el.children[0].contentWindow.window.document.querySelector('input[value="Test"]').click();
+                //wait for DTL test window to fully render
+                window.setTimeout( () => {
+                    //trigger the DTL test button
+                    this.el.children[0].contentWindow.window.document.getElementsByTagName('iframe')[0].contentDocument.querySelector('input[value="Test"]').click();
+                    //wait for the DTL test to execute and return the result
+                    window.setTimeout( () => {
+                        //extract the results from the test window
+                        let spans = this.el.children[0].contentWindow.window.document.getElementsByTagName('iframe')[0].contentDocument.getElementsByTagName('span');
+                        let span = spans[spans.length-1];
+                        let tr = span.closest('tr').cloneNode(true);
+                        tr.style.color = 'var(--appTextColorFive)';
+                        let html = tr.querySelector('pre').innerHTML;
+                        //if its XML then lets add some formatting to make the XML values pop
+                        if (html.charAt(0) === '<') {
+                            tr.querySelector('pre').innerHTML = html.replaceAll(/(&gt;)(.*)(&lt;\/)/g,"$1<span class='primary-color''>$2</span>$3")
+                        }
+                        //send a clone of the results to the message console
+                        AppDirector.set('Message.Console',{
+                            title: 'save',
+                            state: 'info',
+                            dtlResult: tr
+                        });
+                        //now close the DTL test window
+                        this.el.children[0].contentWindow.window.document.getElementsByTagName('iframe')[0].contentDocument.querySelector('input[value="Close"]').click();
+                    },1000)
+                },1000)
+
             })
             .catch( err => AppDirector.set('Message.Console',err,false) );
     }

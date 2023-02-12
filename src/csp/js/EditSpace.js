@@ -377,7 +377,46 @@ export class EditSpace {
     outputToConsole(data) {
         this.toggleStatusWindow(true);
         let outputWindow = document.getElementById('outputWindow');
-        outputWindow.innerHTML = outputWindow.innerHTML + '<br>' + data + '<br>';
+
+        if (typeof data === 'string') {
+
+            let pre = document.createElement('pre');
+            pre.innerText = data;
+            outputWindow.appendChild(pre);
+
+        } else {
+
+            if (data.text !== undefined) {
+                let pre = document.createElement('pre');
+                pre.innerText = data.text;
+                outputWindow.appendChild(pre)
+            }
+
+            if (data.html !== undefined) {
+                let div = document.createElement('div');
+                div.innerHTML = data.html;
+                outputWindow.appendChild(div)
+            }
+
+            //display a DTL result: TODO, make this a callback function
+            if (data.dtlResult !== undefined) {
+                let table = document.createElement('table')
+                table.appendChild(data.dtlResult);
+                outputWindow.appendChild(table);
+                //add event listener to DTL results in output window
+                table.addEventListener('click', (ev) => {
+                    let path = ev.target.closest('tr[class="EDIDocumentTableRow"]').querySelector('td[class="EDIDocumentTableSegname"]').firstChild.title + ' : ' + ev.target.title + ' = ' + ev.target.innerText;
+                    AppDirector.set('Message.Console',{
+                        title: 'save',
+                        state: 'info',
+                        text: path
+                    });
+                    ev.preventDefault();
+                })
+            }
+
+        }
+
         outputWindow.scrollTop = outputWindow.scrollHeight
     }
 
@@ -462,6 +501,7 @@ export class EditSpace {
     }
 
     outputDragbarStart() {
+        document.getElementById('edit-shim').style.visibility='visible';
         let statusWindow=document.getElementById('statusWindow');
         if (statusWindow.dataset.state === 'closed') return;
         document.addEventListener("mousemove", EditSpace.outputDragbarMove);
@@ -479,6 +519,7 @@ export class EditSpace {
     }
 
     static outputDragbarDone(ev) {
+        document.getElementById('edit-shim').style.visibility='hidden';
         document.removeEventListener("mousemove",EditSpace.outputDragbarMove);
         document.removeEventListener("mouseup",EditSpace.outputDragbarDone);
         document.removeEventListener("mouseleave",EditSpace.outputDragbarDone);

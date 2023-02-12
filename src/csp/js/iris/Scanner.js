@@ -2,6 +2,10 @@ export class Scanner {
 
     static scanForVariableType(vname,model,position) {
 
+        //TODO: use cases that are not yet supported:
+        //      %request.content should be %CSP.Stream
+
+
         if (vname === '%request') return {className: '%CSP.Request', methodName: '%New'}
         if (vname === '%response') return {className: '%CSP.Response', methodName: '%New'}
         if (vname === '%session') return {className: '%CSP.Session', methodName: '%New'}

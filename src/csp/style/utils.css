@@ -118,3 +118,6 @@
 .primary {
     color: var(--appTextColor);
 }
+.primary-color {
+    color: var(--appTextColor);
+}
