@@ -9,4 +9,3 @@
 *.mac text eol=lf
 *.int text eol=lf
 *.inc text eol=lf
-Dockerfil* text eol=lf
