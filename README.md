@@ -2,16 +2,7 @@
 
 ## Introduction
 
-Welcome to a very early Preview release of Cloud Studio, a code editor for InterSystems Iris. Documentation will follow an Alpha release.
-
-[Video Demonstration](https://www.youtube.com/watch?v=Am6QAvrPPPg)
-
-![Cloud Studio Demonstration](./npc/Screeshot.jpg)
-
-The project is currently "work in progress" and is at the early stages of development and testing.
-
-Use of the project should be experimental for now.
-
+A work in progress IDE for IRIS.
 
 ## Installation
 
@@ -35,10 +26,10 @@ zpm "install cloudstudio"
   3.3 Give the application a suitable role  
 
 
-![Instal Instructions A](./npc/InstructionsA.png)
+![Instal Instructions A](./readme/InstructionsA.png)
 
 
-![Instal Instructions A](./npc/InstructionsB.png)
+![Instal Instructions A](./readme/InstructionsB.png)
 
 
 4. Browse to the index page (replace port number to match your installation setup)
