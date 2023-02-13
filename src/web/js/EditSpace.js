@@ -471,6 +471,7 @@ export class EditSpace {
 
     explorerDragbarStart() {
         //large tree causes repaint jank, shift explorer hard right and then recalc at last second to prevent jank
+        document.getElementById('edit-shim').style.visibility='visible';
         let explorerPanel=document.getElementById('explorerPanel');
         explorerPanel.style.width = '497px';
         document.addEventListener("mousemove", EditSpace.explorerDragbarMove);
@@ -479,6 +480,7 @@ export class EditSpace {
     }
 
     static explorerDragbarDone(ev) {
+        document.getElementById('edit-shim').style.visibility='hidden';
         let explorerPanel=document.getElementById('explorerPanel');
         EditSpace.explorerDragbarMove(ev)
         explorerPanel.style.width = explorerPanel.dataset.movewidth;
